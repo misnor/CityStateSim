@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Core.EventBus.Interfaces;
+using DefaultEcs;
+using Infrastructure.Factories.Interfaces;
+using Microsoft.Extensions.Logging;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,16 +14,43 @@ namespace UI
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        public MainGame()
+        private readonly ILogger<MainGame> logger;
+        private readonly IEcsEventBus ecsEventBus;
+        private readonly IAppEventBus appBus;
+        private World world;
+
+        public MainGame(ILogger<MainGame> logger, IEcsEventBus ecsEventBus, IAppEventBus appBus, World world)
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            this.logger = logger;
+            this.ecsEventBus = ecsEventBus;
+            this.appBus = appBus;
+            this.world = world;
         }
 
         protected override void Initialize()
         {
+            ecsEventBus.Subscribe<string>(msg =>
+                // this never comes back
+                logger.LogInformation("ECS bus received: {Message}", msg)
+            );
+
+            appBus.Subscribe<int>(value =>
+                logger.LogInformation("App bus got int: {Value}", value)
+            );
+
+            ecsEventBus.Publish("Hello from ECS bus!");
+            appBus.Publish(123);
+
+            logger.LogInformation("MainGame initialized successfully.");
             base.Initialize();
+        }
+
+        private void On(in string message)
+        {
+            logger.LogInformation("Received message: {Message}", message);
         }
 
         protected override void LoadContent()
