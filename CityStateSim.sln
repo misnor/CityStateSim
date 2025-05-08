@@ -11,6 +11,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gameplay", "Gameplay\Gamepl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UI", "UI\UI.csproj", "{5C605E1E-94C4-4606-B155-AF2854A281C9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{2185E783-F612-4995-B664-2EA757F5D934}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{73E94CE5-75EE-4B58-ABC8-2BA7E718E85A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Tests", "Tests\Core.Tests\Core.Tests.csproj", "{BAADE13F-7228-4062-9D8C-2EA54B631ED2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Tests", "Tests\Infrastructure.Tests\Infrastructure.Tests.csproj", "{C64A7FB2-DF1F-437C-9127-02856B74B59B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gameplay.Tests", "Tests\Gameplay.Tests\Gameplay.Tests.csproj", "{E6B95E1F-248B-4748-8E9B-E609945CD821}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "Tests\IntegrationTests\IntegrationTests.csproj", "{362299ED-D98E-42CE-9935-D5A69024EC7F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +49,30 @@ Global
 		{5C605E1E-94C4-4606-B155-AF2854A281C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C605E1E-94C4-4606-B155-AF2854A281C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C605E1E-94C4-4606-B155-AF2854A281C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAADE13F-7228-4062-9D8C-2EA54B631ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAADE13F-7228-4062-9D8C-2EA54B631ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAADE13F-7228-4062-9D8C-2EA54B631ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAADE13F-7228-4062-9D8C-2EA54B631ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C64A7FB2-DF1F-437C-9127-02856B74B59B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C64A7FB2-DF1F-437C-9127-02856B74B59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C64A7FB2-DF1F-437C-9127-02856B74B59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C64A7FB2-DF1F-437C-9127-02856B74B59B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6B95E1F-248B-4748-8E9B-E609945CD821}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6B95E1F-248B-4748-8E9B-E609945CD821}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6B95E1F-248B-4748-8E9B-E609945CD821}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6B95E1F-248B-4748-8E9B-E609945CD821}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362299ED-D98E-42CE-9935-D5A69024EC7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362299ED-D98E-42CE-9935-D5A69024EC7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362299ED-D98E-42CE-9935-D5A69024EC7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362299ED-D98E-42CE-9935-D5A69024EC7F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BAADE13F-7228-4062-9D8C-2EA54B631ED2} = {73E94CE5-75EE-4B58-ABC8-2BA7E718E85A}
+		{C64A7FB2-DF1F-437C-9127-02856B74B59B} = {73E94CE5-75EE-4B58-ABC8-2BA7E718E85A}
+		{E6B95E1F-248B-4748-8E9B-E609945CD821} = {73E94CE5-75EE-4B58-ABC8-2BA7E718E85A}
+		{362299ED-D98E-42CE-9935-D5A69024EC7F} = {73E94CE5-75EE-4B58-ABC8-2BA7E718E85A}
 	EndGlobalSection
 EndGlobal
