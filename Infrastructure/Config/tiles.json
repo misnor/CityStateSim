@@ -1,0 +1,26 @@
+[
+    {
+        "Id": "grass",
+        "Walkable": true,
+        "Resource": null,
+        "SpawnProbability": 0.5
+    },
+    {
+        "Id": "tree",
+        "Walkable": false,
+        "Resource": "wood",
+        "SpawnProbability": 0.3
+    },
+    {
+        "Id": "rock",
+        "Walkable": false,
+        "Resource": "stone",
+        "SpawnProbability": 0.15
+    },
+    {
+        "Id": "stockpile",
+        "Walkable": true,
+        "Resource": null,
+        "SpawnProbability": 0.00
+    }
+]
