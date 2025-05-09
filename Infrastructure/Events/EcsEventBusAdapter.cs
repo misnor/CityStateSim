@@ -4,18 +4,18 @@ using DefaultEcs;
 namespace Infrastructure.Events;
 public class EcsEventBusAdapter : IEcsEventBus
 {
-    private readonly World _world;
+    private readonly World world;
 
-    public EcsEventBusAdapter(World world) => _world = world;
+    public EcsEventBusAdapter(World world) => this.world = world;
 
     public void Publish<T>(T @event)
     {
-        _world.Publish(@event);
+        world.Publish(@event);
     }
 
     public IDisposable Subscribe<T>(Action<T> handler)
     {
         void Adapter(in T msg) => handler(msg);
-        return _world.Subscribe<T>(Adapter);
+        return world.Subscribe<T>(Adapter);
     }
 }
