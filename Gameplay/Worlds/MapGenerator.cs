@@ -13,23 +13,20 @@ public record TileDefinition(string Id, bool Walkable, string? Resource, float S
 public class MapGenerator
 {
     private readonly IConfigProvider config;
-    private readonly IWorldFactory worldFactory;
     private readonly Random rand;
 
-    public MapGenerator(IConfigProvider cfg, IWorldFactory wf, Random? rand = null)
+    public MapGenerator(IConfigProvider cfg,Random? rand = null)
     {
         this.config = cfg;
-        this.worldFactory = wf;
         this.rand = rand ?? new Random();
     }
 
     /// <summary>
     /// Generates a width×height grid of tile entities.
     /// </summary>
-    public World Generate(int width, int height)
+    public World Generate(World world, int width, int height)
     {
         var definitions = config.LoadConfig<List<TileDefinition>>("tiles.json");
-        var world = worldFactory.CreateWorld();
 
         for (int y = 0; y < height; y++)
         {

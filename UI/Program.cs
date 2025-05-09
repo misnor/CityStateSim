@@ -1,4 +1,5 @@
-﻿using Infrastructure.DependencyInjection;
+﻿using Gameplay.DependencyInjection;
+using Infrastructure.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using UI;
@@ -10,7 +11,9 @@ internal class Program
         var services = new ServiceCollection()
             .AddLogging(config => config.AddConsole())
             .AddWorldFactory()
+            .AddConfiguration()
             .AddEventBuses()
+            .AddGameplaySimulation()
             .AddScoped<MainGame>();
 
         var provider = services.BuildServiceProvider(new ServiceProviderOptions

@@ -26,10 +26,10 @@ public class MapGeneratorTests
         var cfg = new StubConfigProvider(defs);
         var worldFactory = new DefaultEcsWorldFactory();
         var rand = new Random(42);
-        var gen = new MapGenerator(cfg, worldFactory, rand);
+        var gen = new MapGenerator(cfg, rand);
 
         // Act
-        var world = gen.Generate(3, 2);
+        var world = gen.Generate(worldFactory.CreateWorld(), 200, 200);
 
         // Assert
         Assert.That(world.GetEntities().AsEnumerable().Count(), Is.EqualTo(6));

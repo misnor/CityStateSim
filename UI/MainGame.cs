@@ -17,9 +17,9 @@ namespace UI
         private readonly ILogger<MainGame> logger;
         private readonly IEcsEventBus ecsEventBus;
         private readonly IAppEventBus appBus;
-        private World world;
+        private DefaultEcs.World world;
 
-        public MainGame(ILogger<MainGame> logger, IEcsEventBus ecsEventBus, IAppEventBus appBus, World world)
+        public MainGame(ILogger<MainGame> logger, IEcsEventBus ecsEventBus, IAppEventBus appBus, DefaultEcs.World world)
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";

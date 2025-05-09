@@ -3,10 +3,20 @@ using Infrastructure.Events;
 using Infrastructure.Factories.Interfaces;
 using Infrastructure.Factories;
 using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.Config.Interfaces;
+using Infrastructure.Config;
 
 namespace Infrastructure.DependencyInjection;
+
 public static class ServiceCollectionExtensions
 {
+    public static IServiceCollection AddConfiguration(this IServiceCollection services)
+    {
+        services.AddSingleton<IConfigProvider, JsonConfigProvider>();
+
+        return services;
+    }
+
     public static IServiceCollection AddWorldFactory(this IServiceCollection services)
     {
         services.AddSingleton<IWorldFactory, DefaultEcsWorldFactory>();
@@ -22,11 +32,6 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IEcsEventBus, EcsEventBusAdapter>();
 
-        return services;
-    }
-
-    public static IServiceCollection AddSimulation(this IServiceCollection services)
-    {
         return services;
     }
 }
