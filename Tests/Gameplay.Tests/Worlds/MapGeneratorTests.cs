@@ -32,7 +32,7 @@ public class MapGeneratorTests
         var world = gen.Generate(worldFactory.CreateWorld(), 200, 200);
 
         // Assert
-        Assert.That(world.GetEntities().AsEnumerable().Count(), Is.EqualTo(6));
+        Assert.That(world.GetEntities().AsEnumerable().Count(), Is.EqualTo(200*200));
         foreach (var e in world.GetEntities().AsEnumerable())
         {
             Assert.That(e.Get<TileTypeComponent>().Id, Is.EqualTo("only"));
