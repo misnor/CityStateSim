@@ -9,11 +9,21 @@ internal class Program
     static void Main(string[] args)
     {
         var services = new ServiceCollection()
-            .AddSingleton<InputSystem>()
             .AddWorldFactory()
-            .AddConfiguration()
             .AddEventBuses()
+            .AddInfrastructure()
             .AddGameplaySimulation()
+            .AddLogging(lb =>
+            {
+                lb.ClearProviders();
+                lb.AddSimpleConsole(opts =>
+                {
+                    opts.SingleLine = true;
+                    opts.TimestampFormat = "HH:mm:ss.fff - ";
+                    opts.IncludeScopes = false;
+                });
+                lb.SetMinimumLevel(LogLevel.Information);
+            })
             .AddScoped<MainGame>();
 
         var provider = services.BuildServiceProvider(new ServiceProviderOptions

@@ -1,6 +1,6 @@
 ﻿using System;
-using Core.EventBus.Interfaces;
-using DefaultEcs;
+using Gameplay.Services.Interfaces;
+using Gameplay.Simulation.Interfaces;
 using Infrastructure.Factories.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
@@ -14,43 +14,30 @@ namespace UI
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private readonly ILogger<MainGame> logger;
-        private readonly IEcsEventBus ecsEventBus;
-        private readonly IAppEventBus appBus;
-        private DefaultEcs.World world;
+        private TimeSpan accumulator = TimeSpan.Zero;
+        private static readonly TimeSpan baseInterval = TimeSpan.FromMilliseconds(100);
 
-        public MainGame(ILogger<MainGame> logger, IEcsEventBus ecsEventBus, IAppEventBus appBus, DefaultEcs.World world)
+        private readonly ILogger<MainGame> logger;
+        private readonly ISimulationRunner simulationRunner;
+        private readonly ITickSpeedService tickSpeedService;
+
+        public MainGame(
+            ILogger<MainGame> logger, 
+            ISimulationRunner simulationRunner, 
+            ITickSpeedService tickSpeedService)
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             this.logger = logger;
-            this.ecsEventBus = ecsEventBus;
-            this.appBus = appBus;
-            this.world = world;
+            this.simulationRunner = simulationRunner;
+            this.tickSpeedService = tickSpeedService;
         }
 
         protected override void Initialize()
         {
-            ecsEventBus.Subscribe<string>(msg =>
-                // this never comes back
-                logger.LogInformation("ECS bus received: {Message}", msg)
-            );
-
-            appBus.Subscribe<int>(value =>
-                logger.LogInformation("App bus got int: {Value}", value)
-            );
-
-            ecsEventBus.Publish("Hello from ECS bus!");
-            appBus.Publish(123);
-
             logger.LogInformation("MainGame initialized successfully.");
             base.Initialize();
-        }
-
-        private void On(in string message)
-        {
-            logger.LogInformation("Received message: {Message}", message);
         }
 
         protected override void LoadContent()
@@ -60,8 +47,20 @@ namespace UI
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            { 
                 Exit();
+            }
+
+            accumulator += gameTime.ElapsedGameTime;
+
+            var interval = TimeSpan.FromTicks(baseInterval.Ticks / tickSpeedService.CurrentMultiplier);
+
+            while (accumulator >= interval)
+            {
+                simulationRunner.Tick();
+                accumulator -= interval;
+            }
 
             base.Update(gameTime);
         }

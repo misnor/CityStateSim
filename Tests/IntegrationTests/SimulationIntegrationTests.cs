@@ -14,6 +14,7 @@ public class SimulationIntegrationTests
     public void OneTimeSetUp()
     {
         var services = new ServiceCollection()
+          .AddInfrastructure()
           .AddConfiguration()
           .AddWorldFactory()
           .AddLogging(builder => builder.AddConsole())

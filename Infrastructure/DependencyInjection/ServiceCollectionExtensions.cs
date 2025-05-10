@@ -10,6 +10,14 @@ namespace Infrastructure.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    {
+        services.AddConfiguration();
+        services.AddWorldFactory();
+        services.AddEventBuses();
+        return services;
+    }
+
     public static IServiceCollection AddConfiguration(this IServiceCollection services)
     {
         services.AddSingleton<IConfigProvider, JsonConfigProvider>();
