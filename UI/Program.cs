@@ -9,7 +9,7 @@ internal class Program
     static void Main(string[] args)
     {
         var services = new ServiceCollection()
-            .AddLogging(config => config.AddConsole())
+            .AddSingleton<InputSystem>()
             .AddWorldFactory()
             .AddConfiguration()
             .AddEventBuses()
