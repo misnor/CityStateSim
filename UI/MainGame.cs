@@ -1,11 +1,9 @@
 ﻿using System;
 using Gameplay.Services.Interfaces;
 using Gameplay.Simulation.Interfaces;
-using Infrastructure.Factories.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace UI
 {
@@ -47,11 +45,6 @@ namespace UI
 
         protected override void Update(GameTime gameTime)
         {
-/*            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            { 
-                Exit();
-            }*/
-
             accumulator += gameTime.ElapsedGameTime;
 
             var interval = TimeSpan.FromTicks(baseInterval.Ticks / tickSpeedService.CurrentMultiplier);

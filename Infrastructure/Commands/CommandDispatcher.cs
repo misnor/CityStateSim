@@ -1,5 +1,4 @@
-﻿using System.Windows.Markup;
-using Core.Commands;
+﻿using Core.Commands;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.Commands;
