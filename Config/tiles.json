@@ -3,7 +3,7 @@
         "Id": "grass",
         "Walkable": true,
         "Resource": null,
-        "SpawnProbability": 0.5
+        "SpawnProbability": 0.55
     },
     {
         "Id": "tree",

@@ -4,8 +4,12 @@ using Infrastructure.DependencyInjection;
 using Infrastructure.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using UI;
 using UI.Input;
+using UI.Rendering.Interfaces;
+using UI.Rendering;
 using UI.Services;
 
 internal class Program
@@ -16,6 +20,7 @@ internal class Program
             .AddScoped<MainGame>()
             .AddSingleton<IInputService, MonoGameInputService>()
             .AddScoped<IGameControl, GameControlAdapter>(sp => new GameControlAdapter(sp.GetRequiredService<MainGame>()))
+            .AddSingleton<IRenderService, RenderService>()
             .AddInfrastructure()
             .AddGameplaySimulation()
             .AddWorldFactory()

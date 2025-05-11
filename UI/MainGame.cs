@@ -1,46 +1,59 @@
 ﻿using System;
+using DefaultEcs;
 using Gameplay.Services.Interfaces;
 using Gameplay.Simulation.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using UI.Rendering;
+using UI.Rendering.Interfaces;
 
 namespace UI
 {
     public class MainGame : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
 
+        private readonly World world;
         private TimeSpan accumulator = TimeSpan.Zero;
         private static readonly TimeSpan baseInterval = TimeSpan.FromMilliseconds(100);
 
         private readonly ILogger<MainGame> logger;
         private readonly ISimulationRunner simulationRunner;
         private readonly ITickSpeedService tickSpeedService;
+        private readonly IRenderService renderService;
 
         public MainGame(
-            ILogger<MainGame> logger, 
-            ISimulationRunner simulationRunner, 
-            ITickSpeedService tickSpeedService)
+            ILogger<MainGame> logger,
+            ISimulationRunner simulationRunner,
+            ITickSpeedService tickSpeedService,
+            IRenderService renderService,
+            World world)
         {
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             this.logger = logger;
             this.simulationRunner = simulationRunner;
             this.tickSpeedService = tickSpeedService;
+            this.renderService = renderService;
+            this.world = world;
         }
 
         protected override void Initialize()
         {
             logger.LogInformation("MainGame initialized successfully.");
+            
+            // Ensure mapgeneration occurs.
+            simulationRunner.Tick();
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            renderService.Initialize(GraphicsDevice, Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -62,6 +75,7 @@ namespace UI
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            renderService.Draw(new SpriteBatch(GraphicsDevice), world);
             base.Draw(gameTime);
         }
     }
