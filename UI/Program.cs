@@ -11,6 +11,8 @@ using UI.Input;
 using UI.Rendering.Interfaces;
 using UI.Rendering;
 using UI.Services;
+using UI.Factories.Interfaces;
+using UI.Factories;
 
 internal class Program
 {
@@ -21,6 +23,7 @@ internal class Program
             .AddSingleton<IInputService, MonoGameInputService>()
             .AddScoped<IGameControl, GameControlAdapter>(sp => new GameControlAdapter(sp.GetRequiredService<MainGame>()))
             .AddSingleton<IRenderService, RenderService>()
+            .AddSingleton<IFontFactory, FontFactory>()
             .AddInfrastructure()
             .AddGameplaySimulation()
             .AddWorldFactory()

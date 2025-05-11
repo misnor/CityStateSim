@@ -5,6 +5,7 @@ using Gameplay.Simulation.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using UI.Factories.Interfaces;
 using UI.Rendering;
 using UI.Rendering.Interfaces;
 
@@ -23,28 +24,36 @@ namespace UI
         private readonly ISimulationRunner simulationRunner;
         private readonly ITickSpeedService tickSpeedService;
         private readonly IRenderService renderService;
+        private readonly IFontFactory fontFactory;
 
         public MainGame(
             ILogger<MainGame> logger,
             ISimulationRunner simulationRunner,
             ITickSpeedService tickSpeedService,
             IRenderService renderService,
+            IFontFactory fontFactory,
             World world)
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+
             this.logger = logger;
             this.simulationRunner = simulationRunner;
             this.tickSpeedService = tickSpeedService;
             this.renderService = renderService;
+            this.fontFactory = fontFactory;
             this.world = world;
         }
 
         protected override void Initialize()
         {
             logger.LogInformation("MainGame initialized successfully.");
-            
+
+            graphics.PreferredBackBufferWidth = 1280;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.ApplyChanges();
+
             // Ensure mapgeneration occurs.
             simulationRunner.Tick();
             base.Initialize();
@@ -54,6 +63,7 @@ namespace UI
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             renderService.Initialize(GraphicsDevice, Content);
+            fontFactory.RegisterFont("DefaultFont", Content.Load<SpriteFont>("DefaultFont"));
         }
 
         protected override void Update(GameTime gameTime)
