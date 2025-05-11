@@ -1,4 +1,5 @@
 ﻿using Core.Components;
+using Core.Components.Tags;
 using DefaultEcs;
 using Infrastructure.Config.Interfaces;
 using Infrastructure.Factories.Interfaces;
@@ -51,6 +52,10 @@ public class MapGenerator
                 entity.Set(new TileTypeComponent(choice.Id));
             }
         }
+
+        var newAgent = world.CreateEntity();
+        newAgent.Set(new PositionComponent(2, 2));
+        newAgent.Set(new AgentTag());
 
         return world;
     }

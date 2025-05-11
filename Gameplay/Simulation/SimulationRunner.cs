@@ -37,7 +37,6 @@ public class SimulationRunner : ISimulationRunner
         }
 
         this.ecsBus.Publish(new TickOccurred());
-        this.logger.LogInformation("Tick occurred.");
         foreach (var system in systems.Where(s => !(s is InputSystem)))
         {
             system.Update(this.world);

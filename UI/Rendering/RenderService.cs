@@ -24,5 +24,6 @@ public class RenderService : IRenderService
         var pixel = contentManager.Load<Texture2D>("whitePixel");
 
         systems.Add(new TileRenderSystem(pixel));
+        systems.Add(new AgentRenderSystem(pixel));
     }
 }
