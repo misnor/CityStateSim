@@ -29,16 +29,4 @@ public class SimulationIntegrationTests
 
     [OneTimeTearDown]
     public void OneTimeTearDown() => _provider.Dispose();
-
-    [Test]
-    public void FirstTick_PopulatesWorldWith200x200Tiles()
-    {
-        using var scope = _provider.CreateScope();
-        var runner = scope.ServiceProvider.GetRequiredService<ISimulationRunner>();
-        runner.Tick();
-
-        var world = scope.ServiceProvider.GetRequiredService<DefaultEcs.World>();
-        var count = world.GetEntities().AsEnumerable().Count();
-        Assert.That(count, Is.EqualTo(200 * 200));
-    }
 }

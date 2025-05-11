@@ -27,33 +27,5 @@ public class InputSystem : IWorldTickSystem
         {
             dispatcher.Dispatch(new TogglePauseCommand());
         }
-
-    /*    if (input.IsKeyDown(InputKey.Up))
-        {
-            dispatcher.Dispatch(new MoveCameraCommand(Direction.Up));
-        }
-        if (input.IsKeyDown(InputKey.Down))
-        {
-            dispatcher.Dispatch(new MoveCameraCommand(Direction.Down));
-        }
-        if (input.IsKeyDown(InputKey.Left))
-        {
-            dispatcher.Dispatch(new MoveCameraCommand(Direction.Left));
-        }
-        if (input.IsKeyDown(InputKey.Right))
-        {
-            dispatcher.Dispatch(new MoveCameraCommand(Direction.Right));
-        }*/
-
-        // Example: handle mouse clicks
-       /* var mousePos = input.GetMousePosition();
-        if (input.WasMouseButtonClicked(MouseButton.Left))
-        {
-            dispatcher.Dispatch(new LeftClickCommand(mousePos.X, mousePos.Y));
-        }
-        if (input.WasMouseButtonClicked(MouseButton.Right))
-        {
-            dispatcher.Dispatch(new RightClickCommand(mousePos.X, mousePos.Y));
-        }*/
     }
 }
