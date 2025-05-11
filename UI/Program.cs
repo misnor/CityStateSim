@@ -1,18 +1,25 @@
 ﻿using Gameplay.DependencyInjection;
+using Infrastructure.Application;
 using Infrastructure.DependencyInjection;
+using Infrastructure.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using UI;
+using UI.Input;
+using UI.Services;
 
 internal class Program
 {
     static void Main(string[] args)
     {
         var services = new ServiceCollection()
-            .AddWorldFactory()
-            .AddEventBuses()
+            .AddScoped<MainGame>()
+            .AddSingleton<IInputService, MonoGameInputService>()
+            .AddScoped<IGameControl, GameControlAdapter>(sp => new GameControlAdapter(sp.GetRequiredService<MainGame>()))
             .AddInfrastructure()
             .AddGameplaySimulation()
+            .AddWorldFactory()
+            .AddEventBuses()
             .AddLogging(lb =>
             {
                 lb.ClearProviders();
@@ -23,8 +30,7 @@ internal class Program
                     opts.IncludeScopes = false;
                 });
                 lb.SetMinimumLevel(LogLevel.Information);
-            })
-            .AddScoped<MainGame>();
+            });
 
         var provider = services.BuildServiceProvider(new ServiceProviderOptions
         {

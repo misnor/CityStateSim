@@ -5,6 +5,9 @@ using Infrastructure.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Config.Interfaces;
 using Infrastructure.Config;
+using Core.Commands;
+using Infrastructure.Commands;
+using Infrastructure.Input;
 
 namespace Infrastructure.DependencyInjection;
 
@@ -12,6 +15,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        services.AddScoped<ICommandDispatcher, CommandDispatcher>();
         services.AddConfiguration();
         services.AddWorldFactory();
         services.AddEventBuses();

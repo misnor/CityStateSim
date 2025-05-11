@@ -47,10 +47,10 @@ namespace UI
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+/*            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             { 
                 Exit();
-            }
+            }*/
 
             accumulator += gameTime.ElapsedGameTime;
 

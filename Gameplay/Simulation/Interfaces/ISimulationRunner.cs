@@ -10,4 +10,8 @@ public interface ISimulationRunner
     /// Advance the simulation by one logical tick.
     /// </summary>
     void Tick();
+
+    void TogglePause();
+
+    bool IsPaused { get; }
 }

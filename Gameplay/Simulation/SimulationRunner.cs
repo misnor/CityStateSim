@@ -11,6 +11,7 @@ public class SimulationRunner : ISimulationRunner
     private readonly IEcsEventBus ecsBus;
     private readonly World world;
     private readonly IEnumerable<IWorldTickSystem> systems;
+    private bool isPaused = false;
 
     public SimulationRunner(ILogger<SimulationRunner> logger, IEcsEventBus ecsBus, World world, IEnumerable<IWorldTickSystem> systems)
     {
@@ -20,6 +21,8 @@ public class SimulationRunner : ISimulationRunner
         this.systems = systems;
     }
 
+    public bool IsPaused => this.isPaused;
+
     public void Tick()
     {
         this.ecsBus.Publish(new TickOccurred());
@@ -28,5 +31,10 @@ public class SimulationRunner : ISimulationRunner
         {
             system.Update(this.world);
         }
+    }
+
+    public void TogglePause()
+    {
+        this.isPaused = !this.isPaused;
     }
 }
