@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ITickSpeedService, TickSpeedService>();
 
         services.AddScoped<ICommandHandler<ExitGameCommand>, ExitGameCommandHandler>();
+        services.AddScoped<ICommandHandler<TogglePauseCommand>, TogglePauseCommandHandler>();
 
         services.AddSingleton<MapGenerator>();
         return services;

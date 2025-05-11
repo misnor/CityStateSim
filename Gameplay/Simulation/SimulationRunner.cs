@@ -2,6 +2,7 @@
 using Core.Events;
 using DefaultEcs;
 using Gameplay.Simulation.Interfaces;
+using Gameplay.Systems;
 using Microsoft.Extensions.Logging;
 
 namespace Gameplay.Simulation;
@@ -25,9 +26,19 @@ public class SimulationRunner : ISimulationRunner
 
     public void Tick()
     {
+        foreach (var inputSys in systems.OfType<InputSystem>())
+        {
+            inputSys.Update(world);
+        }
+
+        if (IsPaused)
+        {
+            return;
+        }
+
         this.ecsBus.Publish(new TickOccurred());
         this.logger.LogInformation("Tick occurred.");
-        foreach (var system in this.systems)
+        foreach (var system in systems.Where(s => !(s is InputSystem)))
         {
             system.Update(this.world);
         }
