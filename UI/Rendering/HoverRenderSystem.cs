@@ -17,6 +17,8 @@ public class HoverRenderSystem : IRenderSystem
     private readonly int tileSize = 32;
     private readonly IFontFactory fontFactory;
 
+    private const int XOffset = 16;
+
     public HoverRenderSystem(IFontFactory fontFactory,
         IInputService inputService,
         Camera2D camera)
@@ -39,7 +41,7 @@ public class HoverRenderSystem : IRenderSystem
         spriteBatch.DrawString(
             font,
             text,
-            new Vector2(ms.X + 8, ms.Y + 8),
+            new Vector2(ms.X + XOffset, ms.Y + 8),
             Color.White
         );
     }
