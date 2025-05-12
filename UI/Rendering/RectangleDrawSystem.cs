@@ -11,6 +11,7 @@ using CityStateSim.Core.Commands;
 using CityStateSim.UI.Camera;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Extensions.Logging;
+using CityStateSim.UI;
 
 namespace CityStateSim.UI.Rendering;
 
@@ -27,8 +28,6 @@ public class RectangleDrawSystem : IRenderSystem
     private bool wasMouseDown;
     private Vector2 startPos;
     private Vector2 currentPos;
-    private const int TileSize = 32;
-    private const int ToolbarHeight = 48 + 16 * 2; // Match the toolbar height from ToolbarRenderSystem
 
     public RectangleDrawSystem(
         ITextureFactory textureFactory,
@@ -75,8 +74,8 @@ public class RectangleDrawSystem : IRenderSystem
         
         // Convert world position to tile coordinates
         var tilePos = new Point(
-            (int)Math.Floor(worldPos.X / TileSize),
-            (int)Math.Floor(worldPos.Y / TileSize)
+            (int)Math.Floor(worldPos.X / Constants.TileSize),
+            (int)Math.Floor(worldPos.Y / Constants.TileSize)
         );
 
         logger.LogDebug("Mouse: ({MouseX}, {MouseY}) -> World: ({WorldX}, {WorldY}) -> Tile: ({TileX}, {TileY})",
@@ -126,7 +125,7 @@ public class RectangleDrawSystem : IRenderSystem
 
     private bool IsOverToolbar(MousePosition pos, Viewport vp)
     {
-        return pos.Y > vp.Height - ToolbarHeight;
+        return pos.Y > vp.Height - Constants.ToolbarHeight;
     }
 
     private void DrawRectangle(SpriteBatch spriteBatch, Vector2 start, Vector2 end)
@@ -138,8 +137,8 @@ public class RectangleDrawSystem : IRenderSystem
         float maxY = Math.Max(start.Y, end.Y);
 
         // Convert tile coordinates to world coordinates
-        var worldStart = new Vector2(minX * TileSize, minY * TileSize);
-        var worldEnd = new Vector2((maxX + 1) * TileSize, (maxY + 1) * TileSize);
+        var worldStart = new Vector2(minX * Constants.TileSize, minY * Constants.TileSize);
+        var worldEnd = new Vector2((maxX + 1) * Constants.TileSize, (maxY + 1) * Constants.TileSize);
 
         // Convert world coordinates to screen coordinates
         var screenStart = camera.WorldToScreen(worldStart, spriteBatch.GraphicsDevice, false);

@@ -12,6 +12,7 @@ using CityStateSim.Infrastructure.Input;
 using CityStateSim.Core.Components;
 using CityStateSim.Core.Components.Tags;
 using Microsoft.Xna.Framework.Input;
+using CityStateSim.UI;
 
 namespace CityStateSim.UI.Rendering;
 
@@ -24,12 +25,10 @@ public class HoverRenderSystem : IRenderSystem
     private readonly IFontFactory fontFactory;
     private readonly ITextureFactory textureFactory;
 
-    private const int TileSize = 32;
     private const int XOffset = 16;
     private const float PaddingX = 4f;
     private const float PaddingY = 2f;
     private const int MaxBoxWidth = 200;
-    private const int ToolbarHeight = 48 + 16 * 2;
 
     private static readonly Type[] KnownTypes = new[]
     {
@@ -87,7 +86,7 @@ public class HoverRenderSystem : IRenderSystem
         => camera.ScreenToWorld(screenPos, spriteBatch.GraphicsDevice, false);
 
     private (int tx, int ty) GetTileCoords(Vector2 worldPos)
-        => ((int)(worldPos.X / TileSize), (int)(worldPos.Y / TileSize));
+        => ((int)(worldPos.X / Constants.TileSize), (int)(worldPos.Y / Constants.TileSize));
 
     private Entity FindHoveredEntity(World world, int tx, int ty)
     {
@@ -166,7 +165,6 @@ public class HoverRenderSystem : IRenderSystem
 
     private bool IsOverToolbar(Vector2 pos, Viewport vp)
     {
-        return pos.Y > vp.Height - ToolbarHeight;
+        return pos.Y > vp.Height - Constants.ToolbarHeight;
     }
-
 }
