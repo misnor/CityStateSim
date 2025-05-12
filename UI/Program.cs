@@ -13,6 +13,7 @@ using UI.Rendering;
 using UI.Services;
 using UI.Factories.Interfaces;
 using UI.Factories;
+using UI.Camera;
 
 internal class Program
 {
@@ -24,6 +25,11 @@ internal class Program
             .AddScoped<IGameControl, GameControlAdapter>(sp => new GameControlAdapter(sp.GetRequiredService<MainGame>()))
             .AddSingleton<IRenderService, RenderService>()
             .AddSingleton<IFontFactory, FontFactory>()
+            .AddSingleton<ITextureFactory, TextureFactory>()
+            .AddSingleton<IRenderSystem, TileRenderSystem>()
+            .AddSingleton<IRenderSystem, AgentRenderSystem>()
+            .AddSingleton<IRenderSystem, HoverRenderSystem>()
+            .AddSingleton<Camera2D>()
             .AddInfrastructure()
             .AddGameplaySimulation()
             .AddWorldFactory()

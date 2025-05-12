@@ -25,6 +25,7 @@ namespace UI
         private readonly ITickSpeedService tickSpeedService;
         private readonly IRenderService renderService;
         private readonly IFontFactory fontFactory;
+        private readonly ITextureFactory textureFactory;
 
         public MainGame(
             ILogger<MainGame> logger,
@@ -32,6 +33,7 @@ namespace UI
             ITickSpeedService tickSpeedService,
             IRenderService renderService,
             IFontFactory fontFactory,
+            ITextureFactory textureFactory,
             World world)
         {
             graphics = new GraphicsDeviceManager(this);
@@ -43,12 +45,16 @@ namespace UI
             this.tickSpeedService = tickSpeedService;
             this.renderService = renderService;
             this.fontFactory = fontFactory;
+            this.textureFactory = textureFactory;
             this.world = world;
         }
 
         protected override void Initialize()
         {
             logger.LogInformation("MainGame initialized successfully.");
+
+            fontFactory.RegisterFont("DefaultFont", Content.Load<SpriteFont>("DefaultFont"));
+            textureFactory.RegisterTexture("whitePixel", Content.Load<Texture2D>("whitePixel"));
 
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
@@ -63,7 +69,6 @@ namespace UI
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             renderService.Initialize(GraphicsDevice, Content);
-            fontFactory.RegisterFont("DefaultFont", Content.Load<SpriteFont>("DefaultFont"));
         }
 
         protected override void Update(GameTime gameTime)

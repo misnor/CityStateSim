@@ -1,15 +1,28 @@
 ﻿using System.Collections.Generic;
 using DefaultEcs;
+using Infrastructure.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using UI.Camera;
+using UI.Factories.Interfaces;
 using UI.Rendering.Interfaces;
 
 namespace UI.Rendering;
 public class RenderService : IRenderService
 {
-    private readonly List<IRenderSystem> systems = new();
+    private readonly IEnumerable<IRenderSystem> systems;
+    private Camera2D camera;
 
-    public void Draw(SpriteBatch spriteBatch, World world)
+    public RenderService(IEnumerable<IRenderSystem> systems,
+            Camera2D camera)
+    {
+        this.systems = systems;
+        this.camera = camera;
+    }
+
+    public void Draw(
+        SpriteBatch spriteBatch, 
+        World world)
     {
         spriteBatch.Begin();
         foreach (var sys in this.systems)
@@ -21,9 +34,9 @@ public class RenderService : IRenderService
 
     public void Initialize(GraphicsDevice graphicsDevice, ContentManager contentManager)
     {
-        var pixel = contentManager.Load<Texture2D>("whitePixel");
-
-        systems.Add(new TileRenderSystem(pixel));
-        systems.Add(new AgentRenderSystem(pixel));
+        foreach(var sys in systems)
+        {
+            sys.Initialize(graphicsDevice, contentManager);
+        }
     }
 }
