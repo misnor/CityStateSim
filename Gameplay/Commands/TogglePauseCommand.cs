@@ -1,4 +1,4 @@
-﻿using Core.Commands;
+﻿using CityStateSim.Core.Commands;
 
-namespace Gameplay.Commands;
+namespace CityStateSim.Gameplay.Commands;
 public record TogglePauseCommand() : ICommand;

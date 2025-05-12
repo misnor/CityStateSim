@@ -1,8 +1,8 @@
 ﻿using System;
-using Infrastructure.Application;
+using CityStateSim.Infrastructure.Application;
 using Microsoft.Xna.Framework;
 
-namespace UI.Services;
+namespace CityStateSim.UI.Services;
 internal class GameControlAdapter : IGameControl
 {
     private readonly Game game;

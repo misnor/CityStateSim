@@ -1,11 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
-using Core.Components;
-using Core.Components.Tags;
+using CityStateSim.Core.Components;
+using CityStateSim.Core.Components.Tags;
 using DefaultEcs;
-using Infrastructure.Config.Interfaces;
-using Infrastructure.Factories.Interfaces;
+using CityStateSim.Infrastructure.Config.Interfaces;
+using CityStateSim.Infrastructure.Factories.Interfaces;
 
-namespace Gameplay.Worlds;
+namespace CityStateSim.Gameplay.Worlds;
 
 /// <summary>
 /// Defines a single tile type as specified in tiles.json

@@ -1,7 +1,7 @@
 ﻿using DefaultEcs;
-using Infrastructure.Factories;
+using CityStateSim.Infrastructure.Factories;
 
-namespace Infrastructure.Tests.Factories;
+namespace CityStateSim.Infrastructure.Tests.Factories;
 
 [TestFixture]
 public class DefaultEcsWorldFactoryTests

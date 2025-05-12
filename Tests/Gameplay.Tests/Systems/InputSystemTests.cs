@@ -1,10 +1,10 @@
-﻿using Core.Commands;
+﻿using CityStateSim.Core.Commands;
 using DefaultEcs;
-using Gameplay.Commands;
-using Gameplay.Systems;
-using Infrastructure.Input;
+using CityStateSim.Gameplay.Commands;
+using CityStateSim.Gameplay.Systems;
+using CityStateSim.Infrastructure.Input;
 
-namespace Gameplay.Tests.Systems;
+namespace CityStateSim.Gameplay.Tests.Systems;
 
 [TestFixture]
 public class InputSystemTests

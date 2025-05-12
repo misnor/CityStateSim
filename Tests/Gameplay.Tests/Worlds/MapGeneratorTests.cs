@@ -1,11 +1,11 @@
-﻿using Core.Components;
-using Gameplay.Worlds;
-using Infrastructure.Config.Interfaces;
-using Infrastructure.Factories;
-using Gameplay.Simulation;
-using Core.Components.Tags;
+﻿using CityStateSim.Core.Components;
+using CityStateSim.Gameplay.Worlds;
+using CityStateSim.Infrastructure.Config.Interfaces;
+using CityStateSim.Infrastructure.Factories;
+using CityStateSim.Gameplay.Simulation;
+using CityStateSim.Core.Components.Tags;
 
-namespace Gameplay.Tests.Worlds
+namespace CityStateSim.Gameplay.Tests.Worlds
 {
     internal class StubConfigProvider : IConfigProvider
     {

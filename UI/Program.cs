@@ -1,19 +1,17 @@
-﻿using Gameplay.DependencyInjection;
-using Infrastructure.Application;
-using Infrastructure.DependencyInjection;
-using Infrastructure.Input;
+﻿using CityStateSim.Gameplay.DependencyInjection;
+using CityStateSim.Infrastructure.Application;
+using CityStateSim.Infrastructure.DependencyInjection;
+using CityStateSim.Infrastructure.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using UI;
-using UI.Input;
-using UI.Rendering.Interfaces;
-using UI.Rendering;
-using UI.Services;
-using UI.Factories.Interfaces;
-using UI.Factories;
-using UI.Camera;
+using CityStateSim.UI.Input;
+using CityStateSim.UI.Rendering.Interfaces;
+using CityStateSim.UI.Rendering;
+using CityStateSim.UI.Services;
+using CityStateSim.UI.Factories.Interfaces;
+using CityStateSim.UI.Factories;
+using CityStateSim.UI.Camera;
 
 internal class Program
 {

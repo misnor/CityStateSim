@@ -1,8 +1,8 @@
-﻿using Core.Commands;
-using Gameplay.Commands;
-using Infrastructure.Application;
+﻿using CityStateSim.Core.Commands;
+using CityStateSim.Gameplay.Commands;
+using CityStateSim.Infrastructure.Application;
 
-namespace Gameplay.Handlers;
+namespace CityStateSim.Gameplay.Handlers;
 public class ExitGameCommandHandler : ICommandHandler<ExitGameCommand>
 {
     private readonly IGameControl gameControl;

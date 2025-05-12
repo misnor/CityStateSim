@@ -1,4 +1,4 @@
-﻿namespace Gameplay.Simulation.Interfaces;
+﻿namespace CityStateSim.Gameplay.Simulation.Interfaces;
 
 /// <summary>
 /// Drives the per-tick execution of all registered IWorldTickSystems, 

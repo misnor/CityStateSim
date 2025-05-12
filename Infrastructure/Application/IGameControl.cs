@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Application;
+﻿namespace CityStateSim.Infrastructure.Application;
 public interface IGameControl
 {
     void Exit();

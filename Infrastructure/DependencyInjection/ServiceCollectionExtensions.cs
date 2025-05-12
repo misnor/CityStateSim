@@ -1,15 +1,15 @@
-﻿using Core.EventBus.Interfaces;
-using Infrastructure.Events;
-using Infrastructure.Factories.Interfaces;
-using Infrastructure.Factories;
+﻿using CityStateSim.Core.EventBus.Interfaces;
+using CityStateSim.Infrastructure.Events;
+using CityStateSim.Infrastructure.Factories.Interfaces;
+using CityStateSim.Infrastructure.Factories;
 using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.Config.Interfaces;
-using Infrastructure.Config;
-using Core.Commands;
-using Infrastructure.Commands;
-using Infrastructure.Input;
+using CityStateSim.Infrastructure.Config.Interfaces;
+using CityStateSim.Infrastructure.Config;
+using CityStateSim.Core.Commands;
+using CityStateSim.Infrastructure.Commands;
+using CityStateSim.Infrastructure.Input;
 
-namespace Infrastructure.DependencyInjection;
+namespace CityStateSim.Infrastructure.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {

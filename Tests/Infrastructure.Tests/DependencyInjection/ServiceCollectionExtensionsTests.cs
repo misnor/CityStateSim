@@ -1,10 +1,10 @@
-﻿using Core.EventBus.Interfaces;
+﻿using CityStateSim.Core.EventBus.Interfaces;
 using DefaultEcs;
-using Infrastructure.DependencyInjection;
-using Infrastructure.Events;
+using CityStateSim.Infrastructure.DependencyInjection;
+using CityStateSim.Infrastructure.Events;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Tests.DependencyInjection;
+namespace CityStateSim.Infrastructure.Tests.DependencyInjection;
 [TestFixture]
 public class ServiceCollectionExtensionsTests
 {

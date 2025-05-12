@@ -1,4 +1,4 @@
-﻿namespace Core.EventBus.Interfaces;
+﻿namespace CityStateSim.Core.EventBus.Interfaces;
 
 public interface IEcsEventBus
 {

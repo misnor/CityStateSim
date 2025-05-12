@@ -5,15 +5,15 @@ using DefaultEcs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using UI.Camera;
-using UI.Factories.Interfaces;
-using UI.Rendering.Interfaces;
-using Infrastructure.Input;
-using Core.Components;
-using Core.Components.Tags;
+using CityStateSim.UI.Camera;
+using CityStateSim.UI.Factories.Interfaces;
+using CityStateSim.UI.Rendering.Interfaces;
+using CityStateSim.Infrastructure.Input;
+using CityStateSim.Core.Components;
+using CityStateSim.Core.Components.Tags;
 using Microsoft.Xna.Framework.Input;
 
-namespace UI.Rendering;
+namespace CityStateSim.UI.Rendering;
 
 public class HoverRenderSystem : IRenderSystem
 {

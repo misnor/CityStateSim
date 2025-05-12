@@ -1,4 +1,4 @@
-﻿namespace Core.Commands;
+﻿namespace CityStateSim.Core.Commands;
 public interface ICommand
 {
 }

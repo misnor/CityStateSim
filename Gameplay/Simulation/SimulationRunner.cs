@@ -1,11 +1,11 @@
-﻿using Core.EventBus.Interfaces;
-using Core.Events;
+﻿using CityStateSim.Core.EventBus.Interfaces;
+using CityStateSim.Core.Events;
 using DefaultEcs;
-using Gameplay.Simulation.Interfaces;
-using Gameplay.Systems;
+using CityStateSim.Gameplay.Simulation.Interfaces;
+using CityStateSim.Gameplay.Systems;
 using Microsoft.Extensions.Logging;
 
-namespace Gameplay.Simulation;
+namespace CityStateSim.Gameplay.Simulation;
 public class SimulationRunner : ISimulationRunner
 {
     private readonly ILogger<SimulationRunner> logger;

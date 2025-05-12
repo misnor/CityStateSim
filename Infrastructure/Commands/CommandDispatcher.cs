@@ -1,7 +1,7 @@
-﻿using Core.Commands;
+﻿using CityStateSim.Core.Commands;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Commands;
+namespace CityStateSim.Infrastructure.Commands;
 public class CommandDispatcher : ICommandDispatcher
 {
     private readonly IServiceProvider services;

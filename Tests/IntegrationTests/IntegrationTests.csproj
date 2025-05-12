@@ -33,8 +33,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\Gameplay\Gameplay.csproj" />
-		<ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Gameplay\CityStateSim.Gameplay.csproj" />
+		<ProjectReference Include="..\..\Infrastructure\CityStateSim.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

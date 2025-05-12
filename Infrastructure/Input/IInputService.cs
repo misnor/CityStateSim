@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Input;
+﻿namespace CityStateSim.Infrastructure.Input;
 
 /// <summary>
 /// A platform-agnostic abstraction for reading player input.

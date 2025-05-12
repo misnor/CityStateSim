@@ -3,10 +3,10 @@ using DefaultEcs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using UI.Rendering.Interfaces;
-using UI.Factories.Interfaces;
+using CityStateSim.UI.Rendering.Interfaces;
+using CityStateSim.UI.Factories.Interfaces;
 
-namespace UI.Rendering
+namespace CityStateSim.UI.Rendering
 {
     public class ToolbarRenderSystem : IRenderSystem
     {

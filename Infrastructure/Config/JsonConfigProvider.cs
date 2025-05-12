@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
-using Infrastructure.Config.Interfaces;
+using CityStateSim.Infrastructure.Config.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Config;
+namespace CityStateSim.Infrastructure.Config;
 public class JsonConfigProvider : IConfigProvider
 {
     private readonly ILogger<JsonConfigProvider> logger;

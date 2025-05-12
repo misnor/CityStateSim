@@ -1,8 +1,8 @@
-﻿using Core.Commands;
-using Gameplay.Commands;
-using Gameplay.Simulation.Interfaces;
+﻿using CityStateSim.Core.Commands;
+using CityStateSim.Gameplay.Commands;
+using CityStateSim.Gameplay.Simulation.Interfaces;
 
-namespace Gameplay.Handlers;
+namespace CityStateSim.Gameplay.Handlers;
 public class TogglePauseCommandHandler : ICommandHandler<TogglePauseCommand>
 {
     private readonly ISimulationRunner runner;

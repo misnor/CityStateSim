@@ -1,8 +1,8 @@
-﻿using Core.EventBus.Interfaces;
-using Core.Events;
-using Gameplay.Services.Interfaces;
+﻿using CityStateSim.Core.EventBus.Interfaces;
+using CityStateSim.Core.Events;
+using CityStateSim.Gameplay.Services.Interfaces;
 
-namespace Gameplay.Services;
+namespace CityStateSim.Gameplay.Services;
 public class TickSpeedService : ITickSpeedService
 {
     private int currentMultiplier = 1;

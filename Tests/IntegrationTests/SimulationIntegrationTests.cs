@@ -1,8 +1,8 @@
-﻿using Infrastructure.DependencyInjection;
+﻿using CityStateSim.Infrastructure.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Gameplay.Simulation.Interfaces;
-using Gameplay.DependencyInjection;
+using CityStateSim.Gameplay.Simulation.Interfaces;
+using CityStateSim.Gameplay.DependencyInjection;
 
 namespace IntegrationTests;
 [TestFixture]

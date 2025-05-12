@@ -1,8 +1,8 @@
-﻿using Gameplay.Commands;
-using Gameplay.Handlers;
-using Infrastructure.Application;
+﻿using CityStateSim.Gameplay.Commands;
+using CityStateSim.Gameplay.Handlers;
+using CityStateSim.Infrastructure.Application;
 
-namespace Gameplay.Tests.Handlers;
+namespace CityStateSim.Gameplay.Tests.Handlers;
 
 [TestFixture]
 public class ExitGameCommandHandlerTests

@@ -1,8 +1,8 @@
 ﻿using System;
-using Infrastructure.Input;
+using CityStateSim.Infrastructure.Input;
 using Microsoft.Xna.Framework.Input;
 
-namespace UI.Input;
+namespace CityStateSim.UI.Input;
 public class MonoGameInputService : IInputService
 {
     private KeyboardState previousKb;

@@ -1,15 +1,15 @@
-﻿using Gameplay.Services.Interfaces;
-using Gameplay.Services;
-using Gameplay.Simulation;
+﻿using CityStateSim.Gameplay.Services.Interfaces;
+using CityStateSim.Gameplay.Services;
+using CityStateSim.Gameplay.Simulation;
 using Microsoft.Extensions.DependencyInjection;
-using Gameplay.Simulation.Interfaces;
-using Gameplay.Worlds;
-using Gameplay.Systems;
-using Core.Commands;
-using Gameplay.Commands;
-using Gameplay.Handlers;
+using CityStateSim.Gameplay.Simulation.Interfaces;
+using CityStateSim.Gameplay.Worlds;
+using CityStateSim.Gameplay.Systems;
+using CityStateSim.Core.Commands;
+using CityStateSim.Gameplay.Commands;
+using CityStateSim.Gameplay.Handlers;
 
-namespace Gameplay.DependencyInjection;
+namespace CityStateSim.Gameplay.DependencyInjection;
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddGameplaySimulation(this IServiceCollection services)

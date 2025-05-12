@@ -1,13 +1,13 @@
 ﻿using System;
 using DefaultEcs;
-using Gameplay.Services.Interfaces;
-using Gameplay.Simulation.Interfaces;
+using CityStateSim.Gameplay.Services.Interfaces;
+using CityStateSim.Gameplay.Simulation.Interfaces;
 using Microsoft.Extensions.Logging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using UI.Factories.Interfaces;
-using UI.Rendering;
-using UI.Rendering.Interfaces;
+using CityStateSim.UI.Factories.Interfaces;
+using CityStateSim.UI.Rendering;
+using CityStateSim.UI.Rendering.Interfaces;
 
 namespace UI
 {

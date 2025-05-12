@@ -1,2 +1,2 @@
-﻿namespace Core.Components.Tags;
+﻿namespace CityStateSim.Core.Components.Tags;
 public record AgentTag();

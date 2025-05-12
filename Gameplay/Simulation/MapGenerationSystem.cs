@@ -1,9 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 using DefaultEcs;
-using Gameplay.Simulation.Interfaces;
-using Gameplay.Worlds;
+using CityStateSim.Gameplay.Simulation.Interfaces;
+using CityStateSim.Gameplay.Worlds;
 
-namespace Gameplay.Simulation;
+namespace CityStateSim.Gameplay.Simulation;
 public class MapGenerationSystem : IWorldTickSystem
 {
     private readonly MapGenerator mapGenerator;

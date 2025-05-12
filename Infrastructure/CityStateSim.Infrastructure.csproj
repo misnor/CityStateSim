@@ -4,6 +4,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<RootNamespace>CityStateSim.Infrastructure</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -25,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Core\Core.csproj" />
+	  <ProjectReference Include="..\Core\CityStateSim.Core.csproj" />
 	</ItemGroup>
 
 </Project>

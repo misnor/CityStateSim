@@ -1,4 +1,4 @@
-﻿namespace Core.Events;
+﻿namespace CityStateSim.Core.Events;
 public record TickOccurred;
 
 public record SetSpeedCommand(int multiplier);

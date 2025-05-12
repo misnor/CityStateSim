@@ -1,6 +1,6 @@
-﻿using Infrastructure.Events;
+﻿using CityStateSim.Infrastructure.Events;
 
-namespace Infrastructure.Tests.Events;
+namespace CityStateSim.Infrastructure.Tests.Events;
 [TestFixture]
 public class InMemoryAppEventBusTests
 {

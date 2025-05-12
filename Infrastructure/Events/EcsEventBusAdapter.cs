@@ -1,7 +1,7 @@
-﻿using Core.EventBus.Interfaces;
+﻿using CityStateSim.Core.EventBus.Interfaces;
 using DefaultEcs;
 
-namespace Infrastructure.Events;
+namespace CityStateSim.Infrastructure.Events;
 public class EcsEventBusAdapter : IEcsEventBus
 {
     private readonly World world;

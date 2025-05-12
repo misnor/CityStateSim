@@ -1,8 +1,8 @@
-﻿using Gameplay.Commands;
-using Gameplay.Handlers;
-using Gameplay.Simulation.Interfaces;
+﻿using CityStateSim.Gameplay.Commands;
+using CityStateSim.Gameplay.Handlers;
+using CityStateSim.Gameplay.Simulation.Interfaces;
 
-namespace Gameplay.Tests.Handlers;
+namespace CityStateSim.Gameplay.Tests.Handlers;
 
 [TestFixture]
 public class TogglePauseCommandHandlerTests

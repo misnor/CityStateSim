@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using Core.EventBus.Interfaces;
+using CityStateSim.Core.EventBus.Interfaces;
 
-namespace Infrastructure.Events;
+namespace CityStateSim.Infrastructure.Events;
 public class InMemoryAppEventBus : IAppEventBus 
 {
     private readonly ConcurrentDictionary<Type, List<Delegate>> handlers = new();

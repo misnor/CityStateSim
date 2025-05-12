@@ -1,14 +1,14 @@
 ﻿using System.Reflection.Metadata;
-using Core.Components;
-using Core.Components.Tags;
+using CityStateSim.Core.Components;
+using CityStateSim.Core.Components.Tags;
 using DefaultEcs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using UI.Factories.Interfaces;
-using UI.Rendering.Interfaces;
+using CityStateSim.UI.Factories.Interfaces;
+using CityStateSim.UI.Rendering.Interfaces;
 
-namespace UI.Rendering;
+namespace CityStateSim.UI.Rendering;
 public class AgentRenderSystem : IRenderSystem
 {
     private Texture2D pixel;

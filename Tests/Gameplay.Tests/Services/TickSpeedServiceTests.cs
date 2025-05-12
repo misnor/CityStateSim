@@ -1,8 +1,8 @@
-﻿using Core.Events;
-using Gameplay.Services;
-using Infrastructure.Events;
+﻿using CityStateSim.Core.Events;
+using CityStateSim.Gameplay.Services;
+using CityStateSim.Infrastructure.Events;
 
-namespace Gameplay.Tests
+namespace CityStateSim.Gameplay.Tests
 {
     public class TickSpeedServiceTests
     {

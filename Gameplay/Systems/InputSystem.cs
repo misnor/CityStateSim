@@ -1,10 +1,10 @@
-﻿using Core.Commands;
+﻿using CityStateSim.Core.Commands;
 using DefaultEcs;
-using Gameplay.Commands;
-using Gameplay.Simulation.Interfaces;
-using Infrastructure.Input;
+using CityStateSim.Gameplay.Commands;
+using CityStateSim.Gameplay.Simulation.Interfaces;
+using CityStateSim.Infrastructure.Input;
 
-namespace Gameplay.Systems;
+namespace CityStateSim.Gameplay.Systems;
 public class InputSystem : IWorldTickSystem
 {
     private readonly IInputService input;

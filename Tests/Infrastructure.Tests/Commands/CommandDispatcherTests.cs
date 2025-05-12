@@ -1,8 +1,8 @@
-﻿using Core.Commands;
-using Infrastructure.Commands;
+﻿using CityStateSim.Core.Commands;
+using CityStateSim.Infrastructure.Commands;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Infrastructure.Tests.Commands;
+namespace CityStateSim.Infrastructure.Tests.Commands;
 
 [TestFixture]
 public class CommandDispatcherTests

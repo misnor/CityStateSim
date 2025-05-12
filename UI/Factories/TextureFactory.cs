@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-using UI.Factories.Interfaces;
+using CityStateSim.UI.Factories.Interfaces;
 
-namespace UI.Factories;
+namespace CityStateSim.UI.Factories;
 internal class TextureFactory : ITextureFactory
 {
     private readonly Dictionary<string, Texture2D> textures = new();

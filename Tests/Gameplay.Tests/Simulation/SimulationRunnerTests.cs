@@ -1,10 +1,10 @@
-﻿using Core.EventBus.Interfaces;
+﻿using CityStateSim.Core.EventBus.Interfaces;
 using DefaultEcs;
-using Gameplay.Simulation.Interfaces;
-using Gameplay.Simulation;
+using CityStateSim.Gameplay.Simulation.Interfaces;
+using CityStateSim.Gameplay.Simulation;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace Gameplay.Tests.Simulation;
+namespace CityStateSim.Gameplay.Tests.Simulation;
 
 [TestFixture]
 public class SimulationRunnerTests

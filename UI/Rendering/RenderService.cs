@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using DefaultEcs;
-using Infrastructure.Input;
+using CityStateSim.Infrastructure.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using UI.Camera;
-using UI.Factories.Interfaces;
-using UI.Rendering.Interfaces;
+using CityStateSim.UI.Camera;
+using CityStateSim.UI.Factories.Interfaces;
+using CityStateSim.UI.Rendering.Interfaces;
 
-namespace UI.Rendering;
+namespace CityStateSim.UI.Rendering;
 public class RenderService : IRenderService
 {
     private readonly IEnumerable<IRenderSystem> systems;

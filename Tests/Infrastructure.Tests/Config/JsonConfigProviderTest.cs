@@ -1,10 +1,10 @@
 ﻿
-using Infrastructure.Config.Interfaces;
-using Infrastructure.Config;
+using CityStateSim.Infrastructure.Config.Interfaces;
+using CityStateSim.Infrastructure.Config;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Text.Json;
 
-namespace Infrastructure.Tests.Config;
+namespace CityStateSim.Infrastructure.Tests.Config;
 internal class JsonConfigProviderTest
 {
     private string originalDir;

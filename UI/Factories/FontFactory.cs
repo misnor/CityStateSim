@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
-using UI.Factories.Interfaces;
+using CityStateSim.UI.Factories.Interfaces;
 
-namespace UI.Factories;
+namespace CityStateSim.UI.Factories;
 public class FontFactory : IFontFactory
 {
     private readonly Dictionary<string, SpriteFont> fonts = new();

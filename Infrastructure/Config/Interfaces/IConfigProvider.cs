@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Config.Interfaces;
+﻿namespace CityStateSim.Infrastructure.Config.Interfaces;
 
 /// <summary>
 /// Abstraction for loading JSON (or other) configuration files.

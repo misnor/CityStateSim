@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace UI.Camera
+namespace CityStateSim.UI.Camera
 {
     /// <summary>
     /// Simple 2D camera for panning, zooming, and converting screen ↔ world coordinates.

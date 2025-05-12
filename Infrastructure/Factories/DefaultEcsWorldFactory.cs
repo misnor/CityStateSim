@@ -1,6 +1,6 @@
-﻿using Infrastructure.Factories.Interfaces;
+﻿using CityStateSim.Infrastructure.Factories.Interfaces;
 
-namespace Infrastructure.Factories;
+namespace CityStateSim.Infrastructure.Factories;
 public class DefaultEcsWorldFactory : IWorldFactory
 {
     public DefaultEcs.World CreateWorld() => new DefaultEcs.World();
