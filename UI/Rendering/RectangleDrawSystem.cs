@@ -24,10 +24,9 @@ public class RectangleDrawSystem : IRenderSystem
     private readonly Camera2D camera;
     private readonly ILogger<RectangleDrawSystem> logger;
     private Texture2D pixel;
-    private bool isDrawing;
+    private Vector2? startPosition;
+    private Vector2? currentPosition;
     private bool wasMouseDown;
-    private Vector2 startPos;
-    private Vector2 currentPos;
 
     public RectangleDrawSystem(
         ITextureFactory textureFactory,
@@ -52,70 +51,69 @@ public class RectangleDrawSystem : IRenderSystem
 
     public void Draw(SpriteBatch spriteBatch, World world)
     {
-        if (toolStateService.CurrentTool != ToolType.Axe)
+        if (toolStateService.CurrentTool != ToolType.Axe && toolStateService.CurrentTool != ToolType.Cancel)
         {
-            isDrawing = false;
-            wasMouseDown = false;
             return;
         }
-
-        var mousePos = inputService.GetMousePosition();
-        var viewport = spriteBatch.GraphicsDevice.Viewport;
-
-        // Check if mouse is outside window or in toolbar
-        if (IsOffscreen(mousePos, viewport) || IsOverToolbar(mousePos, viewport))
-        {
-            isDrawing = false;
-            wasMouseDown = false;
-            return;
-        }
-
-        var worldPos = camera.ScreenToWorld(new Vector2(mousePos.X, mousePos.Y), spriteBatch.GraphicsDevice, false);
-        
-        // Convert world position to tile coordinates
-        var tilePos = new Point(
-            (int)Math.Floor(worldPos.X / Constants.TileSize),
-            (int)Math.Floor(worldPos.Y / Constants.TileSize)
-        );
-
-        logger.LogDebug("Mouse: ({MouseX}, {MouseY}) -> World: ({WorldX}, {WorldY}) -> Tile: ({TileX}, {TileY})",
-            mousePos.X, mousePos.Y, worldPos.X, worldPos.Y, tilePos.X, tilePos.Y);
 
         bool isMouseDown = inputService.IsMouseButtonDown(MouseButton.Left);
+        var mousePos = inputService.GetMousePosition();
+        var mouseVector = new Vector2(mousePos.X, mousePos.Y);
 
-        // Start drawing on mouse down
+        // Start drawing
         if (isMouseDown && !wasMouseDown)
         {
-            isDrawing = true;
-            startPos = new Vector2(tilePos.X, tilePos.Y);
-            currentPos = startPos;
-            logger.LogInformation("Started drawing at tile position: {X}, {Y}", tilePos.X, tilePos.Y);
+            startPosition = mouseVector;
+            currentPosition = startPosition;
+            logger.LogInformation("Started drawing at mouse position: {X}, {Y}", startPosition.Value.X, startPosition.Value.Y);
         }
-
-        // Update current position while drawing
-        if (isDrawing)
+        // Update while drawing
+        else if (isMouseDown && startPosition.HasValue)
         {
-            currentPos = new Vector2(tilePos.X, tilePos.Y);
-            logger.LogDebug("Current position: {X}, {Y}", tilePos.X, tilePos.Y);
-
-            // Draw the rectangle
-            DrawRectangle(spriteBatch, startPos, currentPos);
-
-            // End drawing on mouse up
-            if (!isMouseDown)
+            currentPosition = mouseVector;
+        }
+        // End drawing
+        else if (!isMouseDown && startPosition.HasValue)
+        {
+            if (currentPosition.HasValue)
             {
-                isDrawing = false;
-                logger.LogInformation("Ended drawing at tile position: {X}, {Y}", tilePos.X, tilePos.Y);
-                commandDispatcher.Dispatch(new MarkTreesForCuttingCommand(
-                    (int)startPos.X,
-                    (int)startPos.Y,
-                    (int)currentPos.X,
-                    (int)currentPos.Y
-                ));
+                // Convert screen coordinates to tile coordinates
+                var startTile = ScreenToTile(startPosition.Value);
+                var endTile = ScreenToTile(currentPosition.Value);
+
+                // Calculate min/max coordinates
+                int minX = Math.Min(startTile.X, endTile.X);
+                int maxX = Math.Max(startTile.X, endTile.X);
+                int minY = Math.Min(startTile.Y, endTile.Y);
+                int maxY = Math.Max(startTile.Y, endTile.Y);
+
+                logger.LogInformation("Ended drawing at mouse position: {X}, {Y}", currentPosition.Value.X, currentPosition.Value.Y);
+                logger.LogInformation("Tile range: ({MinX}, {MinY}) to ({MaxX}, {MaxY})", minX, minY, maxX, maxY);
+
+                // Create rectangle command based on tool type
+                if (toolStateService.CurrentTool == ToolType.Axe)
+                {
+                    var command = new MarkTreesForCuttingCommand(minX, minY, maxX, maxY);
+                    commandDispatcher.Dispatch(command);
+                }
+                else if (toolStateService.CurrentTool == ToolType.Cancel)
+                {
+                    var command = new CancelJobCommand(minX, minY, maxX, maxY);
+                    commandDispatcher.Dispatch(command);
+                }
             }
+
+            startPosition = null;
+            currentPosition = null;
         }
 
         wasMouseDown = isMouseDown;
+
+        // Draw the rectangle if we're currently drawing
+        if (startPosition.HasValue && currentPosition.HasValue)
+        {
+            DrawRectangle(spriteBatch, startPosition.Value, currentPosition.Value);
+        }
     }
 
     private bool IsOffscreen(MousePosition pos, Viewport vp)
@@ -130,40 +128,27 @@ public class RectangleDrawSystem : IRenderSystem
 
     private void DrawRectangle(SpriteBatch spriteBatch, Vector2 start, Vector2 end)
     {
-        // Calculate rectangle bounds
         float minX = Math.Min(start.X, end.X);
         float maxX = Math.Max(start.X, end.X);
         float minY = Math.Min(start.Y, end.Y);
         float maxY = Math.Max(start.Y, end.Y);
 
-        // Convert tile coordinates to world coordinates
-        var worldStart = new Vector2(minX * Constants.TileSize, minY * Constants.TileSize);
-        var worldEnd = new Vector2((maxX + 1) * Constants.TileSize, (maxY + 1) * Constants.TileSize);
-
-        // Convert world coordinates to screen coordinates
-        var screenStart = camera.WorldToScreen(worldStart, spriteBatch.GraphicsDevice, false);
-        var screenEnd = camera.WorldToScreen(worldEnd, spriteBatch.GraphicsDevice, false);
-
-        logger.LogDebug("Drawing rectangle from world ({StartX}, {StartY}) to ({EndX}, {EndY}) -> screen ({ScreenStartX}, {ScreenStartY}) to ({ScreenEndX}, {ScreenEndY})",
-            worldStart.X, worldStart.Y, worldEnd.X, worldEnd.Y,
-            screenStart.X, screenStart.Y, screenEnd.X, screenEnd.Y);
-
-        // Draw rectangle outline
         var rect = new Rectangle(
-            (int)screenStart.X,
-            (int)screenStart.Y,
-            (int)(screenEnd.X - screenStart.X),
-            (int)(screenEnd.Y - screenStart.Y)
+            (int)minX,
+            (int)minY,
+            (int)(maxX - minX),
+            (int)(maxY - minY)
         );
 
-        // Draw semi-transparent fill
-        spriteBatch.Draw(pixel, rect, new Color(255, 255, 0, 50));
+        // Draw semi-transparent yellow rectangle
+        spriteBatch.Draw(pixel, rect, Color.Yellow * 0.5f);
+    }
 
-        // Draw border
-        int borderWidth = 2;
-        spriteBatch.Draw(pixel, new Rectangle(rect.X, rect.Y, rect.Width, borderWidth), Color.Yellow); // Top
-        spriteBatch.Draw(pixel, new Rectangle(rect.X, rect.Bottom - borderWidth, rect.Width, borderWidth), Color.Yellow); // Bottom
-        spriteBatch.Draw(pixel, new Rectangle(rect.X, rect.Y, borderWidth, rect.Height), Color.Yellow); // Left
-        spriteBatch.Draw(pixel, new Rectangle(rect.Right - borderWidth, rect.Y, borderWidth, rect.Height), Color.Yellow); // Right
+    private Point ScreenToTile(Vector2 screenPos)
+    {
+        // Convert screen coordinates to tile coordinates
+        int tileX = (int)(screenPos.X / 32);
+        int tileY = (int)(screenPos.Y / 32);
+        return new Point(tileX, tileY);
     }
 } 

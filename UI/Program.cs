@@ -12,6 +12,8 @@ using CityStateSim.UI.Services;
 using CityStateSim.UI.Factories.Interfaces;
 using CityStateSim.UI.Factories;
 using CityStateSim.UI.Camera;
+using CityStateSim.Gameplay.Commands;
+using CityStateSim.Core.Commands;
 
 internal class Program
 {
@@ -27,7 +29,7 @@ internal class Program
             .AddSingleton<IRenderSystem, TileRenderSystem>()
             .AddSingleton<IRenderSystem, AgentRenderSystem>()
             .AddSingleton<IRenderSystem, HoverRenderSystem>()
-            .AddSingleton<IRenderSystem, ToolbarRenderSystem>()
+            .AddScoped<IRenderSystem, ToolbarRenderSystem>()
             .AddScoped<IRenderSystem, RectangleDrawSystem>()
             .AddSingleton<Camera2D>()
             .AddInfrastructure()
@@ -55,7 +57,7 @@ internal class Program
         var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
         logger.LogInformation("Starting CityStateSim…");
 
-        using var game = scope.ServiceProvider.GetRequiredService<MainGame>();
+         using var game = scope.ServiceProvider.GetRequiredService<MainGame>();
         game.Run();
     }
 }

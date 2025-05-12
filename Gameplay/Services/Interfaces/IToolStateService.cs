@@ -3,7 +3,8 @@ namespace CityStateSim.Gameplay.Services.Interfaces;
 public enum ToolType
 {
     None,
-    Axe
+    Axe,
+    Cancel
 }
 
 public interface IToolStateService

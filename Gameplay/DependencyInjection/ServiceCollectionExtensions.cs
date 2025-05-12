@@ -23,6 +23,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ICommandHandler<ExitGameCommand>, ExitGameCommandHandler>();
         services.AddScoped<ICommandHandler<TogglePauseCommand>, TogglePauseCommandHandler>();
         services.AddScoped<ICommandHandler<MarkTreesForCuttingCommand>, MarkTreesForCuttingCommandHandler>();
+        services.AddScoped<ICommandHandler<CancelJobCommand>, CancelJobCommandHandler>();
 
         services.AddSingleton<MapGenerator>();
         return services;
