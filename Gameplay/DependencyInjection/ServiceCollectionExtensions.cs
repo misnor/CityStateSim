@@ -14,11 +14,11 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddGameplaySimulation(this IServiceCollection services)
     {
-
         services.AddScoped<ISimulationRunner, SimulationRunner>();
         services.AddScoped<IWorldTickSystem, MapGenerationSystem>();
         services.AddScoped<IWorldTickSystem, InputSystem>();
         services.AddSingleton<ITickSpeedService, TickSpeedService>();
+        services.AddSingleton<IToolStateService, ToolStateService>();
 
         services.AddScoped<ICommandHandler<ExitGameCommand>, ExitGameCommandHandler>();
         services.AddScoped<ICommandHandler<TogglePauseCommand>, TogglePauseCommandHandler>();
