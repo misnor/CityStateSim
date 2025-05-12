@@ -11,6 +11,15 @@ public class CancelJobCommand : ICommand
 
     public CancelJobCommand(int minX, int minY, int maxX, int maxY)
     {
+        if (minX > maxX)
+        {
+            throw new ArgumentException("MinX cannot be greater than MaxX", nameof(minX));
+        }
+        if (minY > maxY)
+        {
+            throw new ArgumentException("MinY cannot be greater than MaxY", nameof(minY));
+        }
+
         MinX = minX;
         MinY = minY;
         MaxX = maxX;
