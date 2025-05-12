@@ -29,6 +29,7 @@ internal class Program
             .AddSingleton<IRenderSystem, TileRenderSystem>()
             .AddSingleton<IRenderSystem, AgentRenderSystem>()
             .AddSingleton<IRenderSystem, HoverRenderSystem>()
+            .AddSingleton<IRenderSystem, ToolbarRenderSystem>()
             .AddSingleton<Camera2D>()
             .AddInfrastructure()
             .AddGameplaySimulation()

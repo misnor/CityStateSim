@@ -11,6 +11,7 @@ using UI.Rendering.Interfaces;
 using Infrastructure.Input;
 using Core.Components;
 using Core.Components.Tags;
+using Microsoft.Xna.Framework.Input;
 
 namespace UI.Rendering;
 
@@ -28,6 +29,7 @@ public class HoverRenderSystem : IRenderSystem
     private const float PaddingX = 4f;
     private const float PaddingY = 2f;
     private const int MaxBoxWidth = 200;
+    private const int ToolbarHeight = 48 + 16 * 2;
 
     private static readonly Type[] KnownTypes = new[]
     {
@@ -57,11 +59,17 @@ public class HoverRenderSystem : IRenderSystem
 
     public void Draw(SpriteBatch spriteBatch, World world)
     {
-        var mouseState = inputService.GetMousePosition();
-        var screenPos = GetScreenPosition(new Point(mouseState.X, mouseState.Y));
+        var ms = inputService.GetMousePosition();
+        var screenPos = GetScreenPosition(new Point(ms.X, ms.Y));
+        var vp = spriteBatch.GraphicsDevice.Viewport;
+
+        if (IsOffscreen(screenPos, vp) || IsOverToolbar(screenPos, vp))
+        {
+            return;
+        }
+
         var worldPos = GetWorldPosition(screenPos, spriteBatch);
         var (tx, ty) = GetTileCoords(worldPos);
-
         var hovered = FindHoveredEntity(world, tx, ty);
         var lines = BuildLines(hovered, tx, ty);
         var textBlock = string.Join(Environment.NewLine, lines);
@@ -150,4 +158,15 @@ public class HoverRenderSystem : IRenderSystem
             screenPos + new Vector2(XOffset, PaddingY),
             Color.White
         );
+
+    private bool IsOffscreen(Vector2 pos, Viewport vp)
+    {
+        return pos.X < 0 || pos.X > vp.Width || pos.Y < 0 || pos.Y > vp.Height;
+    }
+
+    private bool IsOverToolbar(Vector2 pos, Viewport vp)
+    {
+        return pos.Y > vp.Height - ToolbarHeight;
+    }
+
 }

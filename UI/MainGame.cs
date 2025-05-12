@@ -55,6 +55,7 @@ namespace UI
 
             fontFactory.RegisterFont("DefaultFont", Content.Load<SpriteFont>("DefaultFont"));
             textureFactory.RegisterTexture("whitePixel", Content.Load<Texture2D>("whitePixel"));
+            textureFactory.RegisterTexture("tool_axe_single", Content.Load<Texture2D>("tool_axe_single"));
 
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
