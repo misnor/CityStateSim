@@ -1,4 +1,5 @@
-﻿using Core.Components;
+﻿using System.Runtime.CompilerServices;
+using Core.Components;
 using Core.Components.Tags;
 using DefaultEcs;
 using Infrastructure.Config.Interfaces;
@@ -15,6 +16,8 @@ public class MapGenerator
 {
     private readonly IConfigProvider config;
     private readonly Random rand;
+
+    public int AgentsSpawned { get; private set; } = 0;
 
     public MapGenerator(IConfigProvider cfg,Random? rand = null)
     {
@@ -53,10 +56,17 @@ public class MapGenerator
             }
         }
 
+        SpawnAgents(world);
+
+        return world;
+    }
+
+    private void SpawnAgents(World world)
+    {
         var newAgent = world.CreateEntity();
         newAgent.Set(new PositionComponent(2, 2));
         newAgent.Set(new AgentTag());
 
-        return world;
+        this.AgentsSpawned++;
     }
 }

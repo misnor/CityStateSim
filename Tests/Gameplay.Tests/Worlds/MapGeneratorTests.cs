@@ -3,6 +3,7 @@ using Gameplay.Worlds;
 using Infrastructure.Config.Interfaces;
 using Infrastructure.Factories;
 using Gameplay.Simulation;
+using Core.Components.Tags;
 
 namespace Gameplay.Tests.Worlds
 {
@@ -33,9 +34,14 @@ namespace Gameplay.Tests.Worlds
             var world = gen.Generate(worldFactory.CreateWorld(), 200, 200);
 
             // Assert
-            Assert.That(world.GetEntities().AsEnumerable().Count(), Is.EqualTo(200 * 200));
+            Assert.That(world.GetEntities().AsEnumerable().Count(), Is.EqualTo((200 * 200)+gen.AgentsSpawned));
             foreach (var e in world.GetEntities().AsEnumerable())
             {
+                if(e.Has<AgentTag>())
+                {
+                    // Ignore agents for the purposes of this test
+                    continue;
+                }
                 Assert.That(e.Get<TileTypeComponent>().Id, Is.EqualTo("only"));
             }
         }
@@ -68,7 +74,7 @@ namespace Gameplay.Tests.Worlds
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(countAfterFirst, Is.EqualTo(200 * 200));
+                Assert.That(countAfterFirst, Is.EqualTo((200 * 200) + mapGenerator.AgentsSpawned));
                 Assert.That(countAfterSecond, Is.EqualTo(countAfterFirst));
             });
         }
