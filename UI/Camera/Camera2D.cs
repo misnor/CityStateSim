@@ -1,6 +1,7 @@
 ﻿// File: UI/Camera/Camera2D.cs
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Extensions.Logging;
 
 namespace CityStateSim.UI.Camera
 {
@@ -9,6 +10,8 @@ namespace CityStateSim.UI.Camera
     /// </summary>
     public class Camera2D
     {
+        private readonly ILogger<Camera2D> logger;
+
         /// <summary>Center of the camera in world space.</summary>
         public Vector2 Position { get; set; } = Vector2.Zero;
 
@@ -17,6 +20,11 @@ namespace CityStateSim.UI.Camera
 
         /// <summary>Rotation in radians.</summary>
         public float Rotation { get; set; } = 0f;
+
+        public Camera2D(ILogger<Camera2D> logger)
+        {
+            this.logger = logger;
+        }
 
         /// <summary>
         /// Builds the view matrix.
@@ -48,7 +56,21 @@ namespace CityStateSim.UI.Camera
         {
             Matrix view = GetViewMatrix(graphicsDevice, centerOrigin);
             Matrix inv = Matrix.Invert(view);
-            return Vector2.Transform(screenPosition, inv);
+            var result = Vector2.Transform(screenPosition, inv);
+            logger.LogDebug("ScreenToWorld: ({ScreenX}, {ScreenY}) -> ({WorldX}, {WorldY})",
+                screenPosition.X, screenPosition.Y, result.X, result.Y);
+            return result;
+        }
+
+        /// <summary>
+        /// Converts world coordinates to screen coordinates.
+        /// </summary>
+        public Vector2 WorldToScreen(Vector2 worldPos, GraphicsDevice graphicsDevice, bool centerOrigin = true)
+        {
+            var result = Vector2.Transform(worldPos, GetViewMatrix(graphicsDevice, centerOrigin));
+            logger.LogDebug("WorldToScreen: ({WorldX}, {WorldY}) -> ({ScreenX}, {ScreenY})",
+                worldPos.X, worldPos.Y, result.X, result.Y);
+            return result;
         }
     }
 }

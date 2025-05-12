@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using CityStateSim.UI.Factories.Interfaces;
 using CityStateSim.UI.Rendering;
 using CityStateSim.UI.Rendering.Interfaces;
+using CityStateSim.UI.Camera;
 
 namespace UI
 {
@@ -26,6 +27,7 @@ namespace UI
         private readonly IRenderService renderService;
         private readonly IFontFactory fontFactory;
         private readonly ITextureFactory textureFactory;
+        private readonly Camera2D camera;
 
         public MainGame(
             ILogger<MainGame> logger,
@@ -34,6 +36,7 @@ namespace UI
             IRenderService renderService,
             IFontFactory fontFactory,
             ITextureFactory textureFactory,
+            Camera2D camera,
             World world)
         {
             graphics = new GraphicsDeviceManager(this);
@@ -46,6 +49,7 @@ namespace UI
             this.renderService = renderService;
             this.fontFactory = fontFactory;
             this.textureFactory = textureFactory;
+            this.camera = camera;
             this.world = world;
         }
 
@@ -60,6 +64,11 @@ namespace UI
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
+
+            // Initialize camera at (0, 0) in world coordinates
+            // The camera's view matrix will handle the screen-to-world conversion
+            camera.Position = Vector2.Zero;
+            camera.Zoom = 1f;
 
             // Ensure mapgeneration occurs.
             simulationRunner.Tick();
