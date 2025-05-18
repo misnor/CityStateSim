@@ -1,6 +1,7 @@
 ﻿using CityStateSim.Core.Commands;
 using CityStateSim.Infrastructure.Commands;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace CityStateSim.Infrastructure.Tests.Commands;
 
@@ -28,6 +29,7 @@ public class CommandDispatcherTests
     {
         // Arrange
         var services = new ServiceCollection();
+        services.AddLogging(builder => builder.AddConsole());
         var handler = new FakeHandler();
         services.AddSingleton<ICommandHandler<FakeCommand>>(handler);
         services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
@@ -49,6 +51,7 @@ public class CommandDispatcherTests
     {
         // Arrange
         var services = new ServiceCollection();
+        services.AddLogging(builder => builder.AddConsole());
         services.AddSingleton<ICommandDispatcher, CommandDispatcher>();
         var provider = services.BuildServiceProvider();
         var dispatcher = provider.GetRequiredService<ICommandDispatcher>();

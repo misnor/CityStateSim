@@ -25,13 +25,9 @@ public class InputSystem : IWorldTickSystem
             dispatcher.Dispatch(new ExitGameCommand());
         }
 
-        bool isSpaceDown = input.IsKeyDown(InputKey.Space);
-
-        if (isSpaceDown && !previousSpaceDown)
+        if (input.WasKeyPressed(InputKey.Space))
         {
             dispatcher.Dispatch(new TogglePauseCommand());
         }
-
-        previousSpaceDown = isSpaceDown;
     }
 }
