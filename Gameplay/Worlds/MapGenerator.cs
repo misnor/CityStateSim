@@ -68,11 +68,11 @@ public class MapGenerator
         SpawnAgent(world, 4, 3);
         SpawnAgent(world, 7, 2);
         
-        this.AgentsSpawned++;
     }
 
     private void SpawnAgent(World world, int x, int y)
     {
+        this.AgentsSpawned++;
         var newAgent = world.CreateEntity();
         newAgent.Set(new PositionComponent(x, y));
         newAgent.Set(new AgentTag());
