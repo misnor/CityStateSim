@@ -8,7 +8,7 @@ namespace CityStateSim.UI.Handlers;
 public class MoveCameraCommandHandler : ICommandHandler<MoveCameraCommand>
 {
     private readonly Camera2D camera;
-    private const float CameraSpeed = 500f; // Pixels per second
+    private const float CameraSpeed = 650f;
 
     public MoveCameraCommandHandler(Camera2D camera)
     {
@@ -17,14 +17,12 @@ public class MoveCameraCommandHandler : ICommandHandler<MoveCameraCommand>
 
     public void Handle(MoveCameraCommand command)
     {
-        // Convert the command's direction into a normalized vector
         var direction = new Vector2(command.DX, command.DY);
         if (direction != Vector2.Zero)
         {
             direction.Normalize();
         }
 
-        // Apply movement based on fixed speed
-        camera.Position += direction * CameraSpeed * (1f/60f); // Assuming 60 FPS as base
+        camera.Position += direction * CameraSpeed * (1f / 60f);
     }
 }
