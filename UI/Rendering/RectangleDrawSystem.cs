@@ -11,7 +11,6 @@ using CityStateSim.Core.Commands;
 using CityStateSim.UI.Camera;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Extensions.Logging;
-using CityStateSim.UI;
 
 namespace CityStateSim.UI.Rendering;
 
@@ -51,7 +50,7 @@ public class RectangleDrawSystem : IRenderSystem
 
     public void Draw(SpriteBatch spriteBatch, World world)
     {
-        if (toolStateService.CurrentTool != ToolType.Axe && toolStateService.CurrentTool != ToolType.Cancel)
+        if (toolStateService.CurrentTool == ToolType.None)
         {
             return;
         }
@@ -95,6 +94,11 @@ public class RectangleDrawSystem : IRenderSystem
                 if (toolStateService.CurrentTool == ToolType.Axe)
                 {
                     var command = new MarkTreesForCuttingCommand(minX, minY, maxX, maxY);
+                    commandDispatcher.Dispatch(command);
+                }
+                else if (toolStateService.CurrentTool == ToolType.Pickaxe)
+                {
+                    var command = new MarkStonesForMiningCommand(minX, minY, maxX, maxY);
                     commandDispatcher.Dispatch(command);
                 }
                 else if (toolStateService.CurrentTool == ToolType.Cancel)

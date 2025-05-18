@@ -45,7 +45,8 @@ public class TileRenderSystem : IRenderSystem
             spriteBatch.Draw(pixel, rect, TileColors[type.Id]);
 
             // If it's a tree marked for cutting, draw an overlay
-            if (type.Id == "tree" && e.Has<CutTreeJobTag>())
+            if (type.Id == "tree" && e.Has<CutTreeJobTag>()
+                || type.Id == "rock" && e.Has<MineRockJobTag>())
             {
                 // Draw a semi-transparent red overlay
                 spriteBatch.Draw(pixel, rect, new Color(255, 0, 0, 100));

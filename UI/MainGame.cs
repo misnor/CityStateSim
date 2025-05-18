@@ -67,6 +67,7 @@ namespace UI
             textureFactory.RegisterTexture("whitePixel", Content.Load<Texture2D>("whitePixel"));
             textureFactory.RegisterTexture("tool_axe_single", Content.Load<Texture2D>("tool_axe_single"));
             textureFactory.RegisterTexture("cross_large", Content.Load<Texture2D>("cross_large"));
+            textureFactory.RegisterTexture("tool_pickaxe", Content.Load<Texture2D>("tool_pickaxe"));
 
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;

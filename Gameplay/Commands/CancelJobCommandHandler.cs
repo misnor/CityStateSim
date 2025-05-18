@@ -38,6 +38,11 @@ public class CancelJobCommandHandler : ICommandHandler<CancelJobCommand>
                     entity.Remove<CutTreeJobTag>();
                     logger.LogDebug("Removed CutTreeJobTag from entity at ({X}, {Y})", pos.X, pos.Y);
                 }
+                else if (entity.Has<MineRockJobTag>())
+                {
+                    entity.Remove<MineRockJobTag>();
+                    logger.LogDebug("Removed MineRockJobTag from entity at ({X}, {Y})", pos.X, pos.Y);
+                }
                 // Add more job tag removals here as needed
             }
         }
