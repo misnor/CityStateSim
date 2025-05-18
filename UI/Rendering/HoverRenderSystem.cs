@@ -28,13 +28,14 @@ public class HoverRenderSystem : IRenderSystem
     private const int XOffset = 16;
     private const float PaddingX = 4f;
     private const float PaddingY = 2f;
-    private const int MaxBoxWidth = 200;
+    private const int MaxBoxWidth = 400;
 
     private static readonly Type[] KnownTypes = new[]
     {
         typeof(PositionComponent),
         typeof(AgentTag),
         typeof(TileTypeComponent),
+        typeof(MovementIntentComponent)
         // add other component/tag types here
     };
 

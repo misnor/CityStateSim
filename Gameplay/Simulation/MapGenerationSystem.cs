@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using DefaultEcs;
+﻿using DefaultEcs;
 using CityStateSim.Gameplay.Simulation.Interfaces;
 using CityStateSim.Gameplay.Worlds;
 

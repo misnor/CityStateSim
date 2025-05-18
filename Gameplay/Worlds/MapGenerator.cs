@@ -66,6 +66,7 @@ public class MapGenerator
         var newAgent = world.CreateEntity();
         newAgent.Set(new PositionComponent(2, 2));
         newAgent.Set(new AgentTag());
+        newAgent.Set(new MovementIntentComponent(14, 4));
 
         this.AgentsSpawned++;
     }

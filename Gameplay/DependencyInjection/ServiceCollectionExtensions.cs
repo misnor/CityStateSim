@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<ISimulationRunner, SimulationRunner>();
         services.AddScoped<IWorldTickSystem, MapGenerationSystem>();
+        services.AddScoped<IWorldTickSystem, AgentMovementSystem>();
         services.AddScoped<IWorldTickSystem, InputSystem>();
         services.AddSingleton<ITickSpeedService, TickSpeedService>();
         services.AddSingleton<IToolStateService, ToolStateService>();

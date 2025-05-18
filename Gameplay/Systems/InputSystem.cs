@@ -9,11 +9,13 @@ public class InputSystem : IWorldTickSystem
 {
     private readonly IInputService input;
     private readonly ICommandDispatcher dispatcher;
+    private bool previousSpaceDown;
 
     public InputSystem(IInputService input, ICommandDispatcher dispatcher)
     {
         this.input = input;
         this.dispatcher = dispatcher;
+        this.previousSpaceDown = false;
     }
 
     public void Update(World world)
@@ -23,9 +25,13 @@ public class InputSystem : IWorldTickSystem
             dispatcher.Dispatch(new ExitGameCommand());
         }
 
-        if (input.WasKeyPressed(InputKey.Space))
+        bool isSpaceDown = input.IsKeyDown(InputKey.Space);
+
+        if (isSpaceDown && !previousSpaceDown)
         {
             dispatcher.Dispatch(new TogglePauseCommand());
         }
+
+        previousSpaceDown = isSpaceDown;
     }
 }
