@@ -9,6 +9,9 @@ using CityStateSim.UI.Factories.Interfaces;
 using CityStateSim.UI.Rendering;
 using CityStateSim.UI.Rendering.Interfaces;
 using CityStateSim.UI.Camera;
+using Microsoft.Xna.Framework.Input;
+using CityStateSim.Core.Commands;
+using CityStateSim.Gameplay.Commands;
 
 namespace UI
 {
@@ -28,6 +31,7 @@ namespace UI
         private readonly IFontFactory fontFactory;
         private readonly ITextureFactory textureFactory;
         private readonly Camera2D camera;
+        private readonly ICommandDispatcher dispatcher;
 
         public MainGame(
             ILogger<MainGame> logger,
@@ -37,6 +41,7 @@ namespace UI
             IFontFactory fontFactory,
             ITextureFactory textureFactory,
             Camera2D camera,
+            ICommandDispatcher dispatcher,
             World world)
         {
             graphics = new GraphicsDeviceManager(this);
@@ -50,6 +55,7 @@ namespace UI
             this.fontFactory = fontFactory;
             this.textureFactory = textureFactory;
             this.camera = camera;
+            this.dispatcher = dispatcher;
             this.world = world;
         }
 
@@ -66,9 +72,8 @@ namespace UI
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
 
-            // Initialize camera at (0, 0) in world coordinates
-            // The camera's view matrix will handle the screen-to-world conversion
-            camera.Position = Vector2.Zero;
+            // Initialize camera with graphics device
+            camera.Initialize(GraphicsDevice);
             camera.Zoom = 1f;
 
             // Ensure mapgeneration occurs.
@@ -87,6 +92,25 @@ namespace UI
             accumulator += gameTime.ElapsedGameTime;
 
             var interval = TimeSpan.FromTicks(baseInterval.Ticks / tickSpeedService.CurrentMultiplier);
+
+            // handle camera movement with WSAD, fire off MoveCameraCommand
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                this.dispatcher.Dispatch(new MoveCameraCommand(0, -1));
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                this.dispatcher.Dispatch(new MoveCameraCommand(0,1));
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                this.dispatcher.Dispatch(new MoveCameraCommand(-1, 0));
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                this.dispatcher.Dispatch(new MoveCameraCommand(1, 0));
+            }
+
 
             while (accumulator >= interval)
             {

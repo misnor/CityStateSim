@@ -59,7 +59,7 @@ public class HoverRenderSystem : IRenderSystem
     public void Draw(SpriteBatch spriteBatch, World world)
     {
         var ms = inputService.GetMousePosition();
-        var screenPos = GetScreenPosition(new Point(ms.X, ms.Y));
+        var screenPos = new Vector2(ms.X, ms.Y);
         var vp = spriteBatch.GraphicsDevice.Viewport;
 
         if (IsOffscreen(screenPos, vp) || IsOverToolbar(screenPos, vp))
@@ -67,7 +67,7 @@ public class HoverRenderSystem : IRenderSystem
             return;
         }
 
-        var worldPos = GetWorldPosition(screenPos, spriteBatch);
+        var worldPos = camera.ScreenToWorld(screenPos, spriteBatch.GraphicsDevice);
         var (tx, ty) = GetTileCoords(worldPos);
         var hovered = FindHoveredEntity(world, tx, ty);
         var lines = BuildLines(hovered, tx, ty);
@@ -79,14 +79,13 @@ public class HoverRenderSystem : IRenderSystem
         DrawText(spriteBatch, textBlock, screenPos);
     }
 
-    private Vector2 GetScreenPosition(Point ms)
-        => new Vector2(ms.X, ms.Y);
-
-    private Vector2 GetWorldPosition(Vector2 screenPos, SpriteBatch spriteBatch)
-        => camera.ScreenToWorld(screenPos, spriteBatch.GraphicsDevice, false);
-
     private (int tx, int ty) GetTileCoords(Vector2 worldPos)
-        => ((int)(worldPos.X / Constants.TileSize), (int)(worldPos.Y / Constants.TileSize));
+    {
+        return (
+            (int)(worldPos.X / Constants.TileSize),
+            (int)(worldPos.Y / Constants.TileSize)
+        );
+    }
 
     private Entity FindHoveredEntity(World world, int tx, int ty)
     {

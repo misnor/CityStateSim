@@ -11,7 +11,7 @@ namespace CityStateSim.UI.Rendering;
 public class RenderService : IRenderService
 {
     private readonly IEnumerable<IRenderSystem> systems;
-    private Camera2D camera;
+    private readonly Camera2D camera;
 
     public RenderService(IEnumerable<IRenderSystem> systems,
             Camera2D camera)
@@ -24,10 +24,28 @@ public class RenderService : IRenderService
         SpriteBatch spriteBatch, 
         World world)
     {
-        spriteBatch.Begin();
+        // Draw world with camera transform
+        spriteBatch.Begin(
+            transformMatrix: camera.GetViewMatrix(spriteBatch.GraphicsDevice),
+            samplerState: SamplerState.PointClamp);
+
         foreach (var sys in this.systems)
         {
-            sys.Draw(spriteBatch, world);
+            if (sys is not ToolbarRenderSystem && sys is not HoverRenderSystem)
+            {
+                sys.Draw(spriteBatch, world);
+            }
+        }
+        spriteBatch.End();
+
+        // Draw UI without camera transform
+        spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+        foreach (var sys in this.systems)
+        {
+            if (sys is ToolbarRenderSystem || sys is HoverRenderSystem)
+            {
+                sys.Draw(spriteBatch, world);
+            }
         }
         spriteBatch.End();
     }

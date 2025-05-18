@@ -14,6 +14,8 @@ using CityStateSim.UI.Factories;
 using CityStateSim.UI.Camera;
 using CityStateSim.Gameplay.Commands;
 using CityStateSim.Core.Commands;
+using CityStateSim.Gameplay.Handlers;
+using CityStateSim.UI.Handlers;
 
 internal class Program
 {
@@ -31,6 +33,7 @@ internal class Program
             .AddSingleton<IRenderSystem, HoverRenderSystem>()
             .AddScoped<IRenderSystem, ToolbarRenderSystem>()
             .AddScoped<IRenderSystem, RectangleDrawSystem>()
+            .AddScoped<ICommandHandler<MoveCameraCommand>, MoveCameraCommandHandler>()
             .AddSingleton<Camera2D>()
             .AddInfrastructure()
             .AddGameplaySimulation()

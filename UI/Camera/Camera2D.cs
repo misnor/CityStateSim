@@ -11,9 +11,30 @@ namespace CityStateSim.UI.Camera
     public class Camera2D
     {
         private readonly ILogger<Camera2D> logger;
+        private Vector2 position;
+        private readonly int worldWidth;
+        private readonly int worldHeight;
+        private GraphicsDevice graphicsDevice;
 
         /// <summary>Center of the camera in world space.</summary>
-        public Vector2 Position { get; set; } = Vector2.Zero;
+        public Vector2 Position 
+        { 
+            get => position;
+            set
+            {
+                // Calculate bounds based on viewport and zoom
+                float minX = graphicsDevice.Viewport.Width / 2f;
+                float minY = graphicsDevice.Viewport.Height / 2f;
+                float maxX = (worldWidth * Constants.TileSize) + (graphicsDevice.Viewport.Width / 2f);
+                float maxY = (worldHeight * Constants.TileSize) + (graphicsDevice.Viewport.Height / 2f);
+
+                // Clamp position within bounds
+                position = new Vector2(
+                    MathHelper.Clamp(value.X, minX, maxX),
+                    MathHelper.Clamp(value.Y, minY, maxY)
+                );
+            }
+        }
 
         /// <summary>Zoom factor (1 = 100%).</summary>
         public float Zoom { get; set; } = 1f;
@@ -24,6 +45,19 @@ namespace CityStateSim.UI.Camera
         public Camera2D(ILogger<Camera2D> logger)
         {
             this.logger = logger;
+            this.worldWidth = 200;  // Match MapGenerationSystem's width
+            this.worldHeight = 200; // Match MapGenerationSystem's height
+        }
+
+        public void Initialize(GraphicsDevice graphicsDevice)
+        {
+            this.graphicsDevice = graphicsDevice;
+            
+            // Set initial position to align world's top-left with camera's top-left
+            this.position = new Vector2(
+                graphicsDevice.Viewport.Width / 2f,
+                graphicsDevice.Viewport.Height / 2f
+            );
         }
 
         /// <summary>
@@ -40,10 +74,10 @@ namespace CityStateSim.UI.Camera
                 : Vector2.Zero;
 
             return
-                Matrix.CreateTranslation(new Vector3(-Position, 0f)) *
-                Matrix.CreateRotationZ(Rotation) *
+                Matrix.CreateTranslation(new Vector3(origin, 0f)) *
                 Matrix.CreateScale(Zoom, Zoom, 1f) *
-                Matrix.CreateTranslation(new Vector3(origin, 0f));
+                Matrix.CreateRotationZ(Rotation) *
+                Matrix.CreateTranslation(new Vector3(-Position, 0f));
         }
 
         /// <summary>

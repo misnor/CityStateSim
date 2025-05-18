@@ -58,28 +58,29 @@ public class RectangleDrawSystem : IRenderSystem
 
         bool isMouseDown = inputService.IsMouseButtonDown(MouseButton.Left);
         var mousePos = inputService.GetMousePosition();
-        var mouseVector = new Vector2(mousePos.X, mousePos.Y);
+        var screenPos = new Vector2(mousePos.X, mousePos.Y);
+        var worldPos = camera.ScreenToWorld(screenPos, spriteBatch.GraphicsDevice);
 
         // Start drawing
         if (isMouseDown && !wasMouseDown)
         {
-            startPosition = mouseVector;
+            startPosition = worldPos;
             currentPosition = startPosition;
-            logger.LogInformation("Started drawing at mouse position: {X}, {Y}", startPosition.Value.X, startPosition.Value.Y);
+            logger.LogInformation("Started drawing at world position: {X}, {Y}", startPosition.Value.X, startPosition.Value.Y);
         }
         // Update while drawing
         else if (isMouseDown && startPosition.HasValue)
         {
-            currentPosition = mouseVector;
+            currentPosition = worldPos;
         }
         // End drawing
         else if (!isMouseDown && startPosition.HasValue)
         {
             if (currentPosition.HasValue)
             {
-                // Convert screen coordinates to tile coordinates
-                var startTile = ScreenToTile(startPosition.Value);
-                var endTile = ScreenToTile(currentPosition.Value);
+                // Convert world coordinates to tile coordinates
+                var startTile = WorldToTile(startPosition.Value);
+                var endTile = WorldToTile(currentPosition.Value);
 
                 // Calculate min/max coordinates
                 int minX = Math.Min(startTile.X, endTile.X);
@@ -87,7 +88,7 @@ public class RectangleDrawSystem : IRenderSystem
                 int minY = Math.Min(startTile.Y, endTile.Y);
                 int maxY = Math.Max(startTile.Y, endTile.Y);
 
-                logger.LogInformation("Ended drawing at mouse position: {X}, {Y}", currentPosition.Value.X, currentPosition.Value.Y);
+                logger.LogInformation("Ended drawing at world position: {X}, {Y}", currentPosition.Value.X, currentPosition.Value.Y);
                 logger.LogInformation("Tile range: ({MinX}, {MinY}) to ({MaxX}, {MaxY})", minX, minY, maxX, maxY);
 
                 // Create rectangle command based on tool type
@@ -144,11 +145,11 @@ public class RectangleDrawSystem : IRenderSystem
         spriteBatch.Draw(pixel, rect, Color.Yellow * 0.5f);
     }
 
-    private Point ScreenToTile(Vector2 screenPos)
+    private Point WorldToTile(Vector2 worldPos)
     {
-        // Convert screen coordinates to tile coordinates
-        int tileX = (int)(screenPos.X / 32);
-        int tileY = (int)(screenPos.Y / 32);
+        // Convert world coordinates to tile coordinates
+        int tileX = (int)(worldPos.X / Constants.TileSize);
+        int tileY = (int)(worldPos.Y / Constants.TileSize);
         return new Point(tileX, tileY);
     }
 } 
