@@ -55,7 +55,7 @@ public class MarkTreesForCuttingCommandHandlerTests
         handler.Handle(command);
 
         // Assert
-        Assert.That(entity.Has<CutTreeJobTag>(), Is.True);
+        Assert.That(entity.Has<JobComponent>(), Is.True);
     }
 
     [Test]
@@ -116,9 +116,9 @@ public class MarkTreesForCuttingCommandHandlerTests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(entity1.Has<CutTreeJobTag>(), Is.True);
-            Assert.That(entity2.Has<CutTreeJobTag>(), Is.True);
-            Assert.That(entity3.Has<CutTreeJobTag>(), Is.False);
+            Assert.That(entity1.Has<JobComponent>(), Is.True);
+            Assert.That(entity2.Has<JobComponent>(), Is.True);
+            Assert.That(entity3.Has<JobComponent>(), Is.False);
         });
     }
 

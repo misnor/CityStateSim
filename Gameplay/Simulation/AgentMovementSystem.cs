@@ -44,11 +44,11 @@ public class AgentMovementSystem : IWorldTickSystem
                 entity.Set(intent);
             }
 
-            if (pos.X == intent.TargetX
+/*            if (pos.X == intent.TargetX
                 && pos.Y == intent.TargetY)
             {
                 entity.Remove<MovementIntentComponent>();
-            }
+            }*/
         }
     }
 }

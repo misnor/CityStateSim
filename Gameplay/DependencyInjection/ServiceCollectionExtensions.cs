@@ -8,6 +8,7 @@ using CityStateSim.Gameplay.Systems;
 using CityStateSim.Core.Commands;
 using CityStateSim.Gameplay.Commands;
 using CityStateSim.Gameplay.Handlers;
+using CityStateSim.Gameplay.Jobs;
 
 namespace CityStateSim.Gameplay.DependencyInjection;
 public static class ServiceCollectionExtensions
@@ -17,9 +18,15 @@ public static class ServiceCollectionExtensions
         services.AddScoped<ISimulationRunner, SimulationRunner>();
         services.AddScoped<IWorldTickSystem, MapGenerationSystem>();
         services.AddScoped<IWorldTickSystem, AgentMovementSystem>();
+        services.AddScoped<IWorldTickSystem, JobAssignmentSystem>();
         services.AddScoped<IWorldTickSystem, InputSystem>();
+        services.AddScoped<IWorldTickSystem, WorkStartSystem>();
+        services.AddScoped<IWorldTickSystem, WorkProgressSystem>();
         services.AddSingleton<ITickSpeedService, TickSpeedService>();
         services.AddSingleton<IToolStateService, ToolStateService>();
+        services.AddScoped<IJobHandler, CutTreeJobHandler>();
+        services.AddScoped<IJobHandler, MineRockJobHandler>();
+
 
         services.AddScoped<ICommandHandler<ExitGameCommand>, ExitGameCommandHandler>();
         services.AddScoped<ICommandHandler<TogglePauseCommand>, TogglePauseCommandHandler>();

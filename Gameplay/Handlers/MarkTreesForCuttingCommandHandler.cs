@@ -40,7 +40,9 @@ public class MarkTreesForCuttingCommandHandler : ICommandHandler<MarkTreesForCut
         // Add the CutTreeJobTag to each tree
         foreach (var tree in trees)
         {
-            tree.Set<CutTreeJobTag>();
+            var treePos = tree.Get<PositionComponent>();
+            tree.Set<JobComponent>(new JobComponent(treePos.X, treePos.Y, JobType.HarvestTree));
+            //tree.Set<CutTreeJobTag>();
         }
     }
 } 

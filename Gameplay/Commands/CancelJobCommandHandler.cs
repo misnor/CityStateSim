@@ -33,17 +33,11 @@ public class CancelJobCommandHandler : ICommandHandler<CancelJobCommand>
             if (pos.X >= command.MinX && pos.X <= command.MaxX &&
                 pos.Y >= command.MinY && pos.Y <= command.MaxY)
             {
-                if (entity.Has<CutTreeJobTag>())
+                if (entity.Has<JobComponent>())
                 {
-                    entity.Remove<CutTreeJobTag>();
-                    logger.LogDebug("Removed CutTreeJobTag from entity at ({X}, {Y})", pos.X, pos.Y);
+                    entity.Remove<JobComponent>();
+                    logger.LogDebug("Removed JobComponent from entity at ({X}, {Y})", pos.X, pos.Y);
                 }
-                else if (entity.Has<MineRockJobTag>())
-                {
-                    entity.Remove<MineRockJobTag>();
-                    logger.LogDebug("Removed MineRockJobTag from entity at ({X}, {Y})", pos.X, pos.Y);
-                }
-                // Add more job tag removals here as needed
             }
         }
     }

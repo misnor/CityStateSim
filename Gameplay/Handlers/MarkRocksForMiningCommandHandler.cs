@@ -37,7 +37,9 @@ public class MarkRocksForMiningCommandHandler : ICommandHandler<MarkStonesForMin
 
         foreach (var rock in rocks)
         {
-            rock.Set<MineRockJobTag>();
+            var rockPos = rock.Get<PositionComponent>();
+            rock.Set<JobComponent>(new JobComponent(rockPos.X, rockPos.Y, JobType.MineRock));
+            //rock.Set<MineRockJobTag>();
         }
     }
 }

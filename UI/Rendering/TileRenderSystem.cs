@@ -40,13 +40,12 @@ public class TileRenderSystem : IRenderSystem
             ref var pos = ref e.Get<PositionComponent>();
             ref var type = ref e.Get<TileTypeComponent>();
             var rect = new Rectangle(pos.X * Constants.TileSize, pos.Y * Constants.TileSize, Constants.TileSize, Constants.TileSize);
-            
+
             // Draw base tile
             spriteBatch.Draw(pixel, rect, TileColors[type.Id]);
 
             // If it's a tree marked for cutting, draw an overlay
-            if (type.Id == "tree" && e.Has<CutTreeJobTag>()
-                || type.Id == "rock" && e.Has<MineRockJobTag>())
+            if (HasJobAssigned(type.Id, e))
             {
                 // Draw a semi-transparent red overlay
                 spriteBatch.Draw(pixel, rect, new Color(255, 0, 0, 100));
@@ -64,5 +63,21 @@ public class TileRenderSystem : IRenderSystem
     public void Initialize(GraphicsDevice graphicsDevice, ContentManager contentManager)
     {
         this.pixel = this.textureFactory.GetTexture("whitePixel");
+    }
+
+    private bool HasJobAssigned(string id, Entity entity)
+    {
+        if (!entity.Has<JobComponent>())
+        { 
+            return false;
+        }
+
+        switch (id)
+        {
+            case "tree": return true;
+            case "rock": return true;
+            default:
+                return false;
+        }
     }
 }

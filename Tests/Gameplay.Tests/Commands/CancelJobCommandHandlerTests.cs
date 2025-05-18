@@ -55,7 +55,7 @@ public class CancelJobCommandHandlerTests
         handler.Handle(command);
 
         // Assert
-        Assert.That(entity.Has<CutTreeJobTag>(), Is.False);
+        Assert.That(entity.Has<JobComponent>(), Is.False);
     }
 
     [Test]
@@ -81,15 +81,15 @@ public class CancelJobCommandHandlerTests
         // Arrange
         var entity1 = world.CreateEntity();
         entity1.Set(new PositionComponent(1, 1));
-        entity1.Set<CutTreeJobTag>();
+        entity1.Set<JobComponent>();
 
         var entity2 = world.CreateEntity();
         entity2.Set(new PositionComponent(2, 2));
-        entity2.Set<CutTreeJobTag>();
+        entity2.Set<JobComponent>();
 
         var entity3 = world.CreateEntity();
         entity3.Set(new PositionComponent(10, 10)); // Outside area
-        entity3.Set<CutTreeJobTag>();
+        entity3.Set<JobComponent>();
 
         var command = new CancelJobCommand(0, 0, 5, 5);
 
@@ -99,9 +99,9 @@ public class CancelJobCommandHandlerTests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(entity1.Has<CutTreeJobTag>(), Is.False);
-            Assert.That(entity2.Has<CutTreeJobTag>(), Is.False);
-            Assert.That(entity3.Has<CutTreeJobTag>(), Is.True);
+            Assert.That(entity1.Has<JobComponent>(), Is.False);
+            Assert.That(entity2.Has<JobComponent>(), Is.False);
+            Assert.That(entity3.Has<JobComponent>(), Is.True);
         });
     }
 

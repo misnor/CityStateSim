@@ -4,6 +4,7 @@ using CityStateSim.Core.Components.Tags;
 using DefaultEcs;
 using CityStateSim.Infrastructure.Config.Interfaces;
 using CityStateSim.Infrastructure.Factories.Interfaces;
+using CityStateSim.Core.Enums;
 
 namespace CityStateSim.Gameplay.Worlds;
 
@@ -66,7 +67,8 @@ public class MapGenerator
         var newAgent = world.CreateEntity();
         newAgent.Set(new PositionComponent(2, 2));
         newAgent.Set(new AgentTag());
-        newAgent.Set(new MovementIntentComponent(14, 4));
+        //newAgent.Set(new MovementIntentComponent(14, 4));
+        newAgent.Set(new AgentStateComponent(AgentState.Idle));
 
         this.AgentsSpawned++;
     }
