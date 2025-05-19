@@ -31,6 +31,7 @@ internal class Program
             .AddSingleton<IRenderSystem, TileRenderSystem>()
             .AddSingleton<IRenderSystem, AgentRenderSystem>()
             .AddSingleton<IRenderSystem, HoverRenderSystem>()
+            .AddScoped<IRenderSystem, ResourceRenderSystem>()
             .AddScoped<IRenderSystem, ToolbarRenderSystem>()
             .AddScoped<IRenderSystem, RectangleDrawSystem>()
             .AddScoped<ICommandHandler<MoveCameraCommand>, MoveCameraCommandHandler>()

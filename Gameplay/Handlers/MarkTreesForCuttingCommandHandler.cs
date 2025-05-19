@@ -37,12 +37,10 @@ public class MarkTreesForCuttingCommandHandler : ICommandHandler<MarkTreesForCut
                        pos.Y >= minY && pos.Y <= maxY;
             });
 
-        // Add the CutTreeJobTag to each tree
         foreach (var tree in trees)
         {
             var treePos = tree.Get<PositionComponent>();
             tree.Set<JobComponent>(new JobComponent(treePos.X, treePos.Y, JobType.HarvestTree));
-            //tree.Set<CutTreeJobTag>();
         }
     }
 } 

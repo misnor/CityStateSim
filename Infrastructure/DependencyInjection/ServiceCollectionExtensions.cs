@@ -8,6 +8,7 @@ using CityStateSim.Infrastructure.Config;
 using CityStateSim.Core.Commands;
 using CityStateSim.Infrastructure.Commands;
 using CityStateSim.Infrastructure.Input;
+using CityStateSim.Core.Config;
 
 namespace CityStateSim.Infrastructure.DependencyInjection;
 
@@ -25,6 +26,18 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddConfiguration(this IServiceCollection services)
     {
         services.AddSingleton<IConfigProvider, JsonConfigProvider>();
+
+        // existing tiles.json load...
+        services.AddSingleton(provider =>
+            provider.GetRequiredService<IConfigProvider>()
+                    .LoadConfig<List<TileDefinition>>("tiles.json")
+        );
+
+        // new resources.json load
+        services.AddSingleton(provider =>
+            provider.GetRequiredService<IConfigProvider>()
+                    .LoadConfig<List<ResourceDefinition>>("resources.json")
+        );
 
         return services;
     }

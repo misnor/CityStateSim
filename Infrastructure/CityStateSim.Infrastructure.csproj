@@ -29,4 +29,10 @@
 	  <ProjectReference Include="..\Core\CityStateSim.Core.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="Config\resources.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

@@ -1,0 +1,14 @@
+[
+    {
+        "Id": "wood",
+        "SpriteKey": "wood_pile",
+        "OffsetX": 0,
+        "OffsetY": 0
+    },
+    {
+        "Id": "stone",
+        "SpriteKey": "",
+        "OffsetX": 0,
+        "OffsetY": 0
+    }
+]
