@@ -14,6 +14,7 @@ public class MapGenerator
     private readonly Random rand;
 
     public int AgentsSpawned { get; private set; } = 0;
+    public int StockpilesSpawned { get; private set; } = 0;
 
     public MapGenerator(IConfigProvider cfg,Random? rand = null)
     {
@@ -68,6 +69,7 @@ public class MapGenerator
             CapacityPerResource = 100, 
             Inventory = new Dictionary<string, int>() 
         });
+        this.StockpilesSpawned++;
     }
 
     private void SpawnAgents(World world)
@@ -75,7 +77,6 @@ public class MapGenerator
         SpawnAgent(world, 2, 2);
         SpawnAgent(world, 4, 3);
         SpawnAgent(world, 7, 2);
-        
     }
 
     private void SpawnAgent(World world, int x, int y)

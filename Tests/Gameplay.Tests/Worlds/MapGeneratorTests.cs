@@ -35,7 +35,7 @@ namespace CityStateSim.Gameplay.Tests.Worlds
             var world = gen.Generate(worldFactory.CreateWorld(), 200, 200);
 
             // Assert
-            Assert.That(world.GetEntities().AsEnumerable().Count(), Is.EqualTo((200 * 200)+gen.AgentsSpawned));
+            Assert.That(world.GetEntities().AsEnumerable().Count(), Is.EqualTo((200 * 200) + gen.AgentsSpawned + gen.StockpilesSpawned));
             foreach (var e in world.GetEntities().AsEnumerable())
             {
                 if(e.Has<AgentTag>())
@@ -43,7 +43,7 @@ namespace CityStateSim.Gameplay.Tests.Worlds
                     // Ignore agents for the purposes of this test
                     continue;
                 }
-                Assert.That(e.Get<TileTypeComponent>().Id, Is.EqualTo("only"));
+                Assert.That(e.Get<TileTypeComponent>().Id, Is.AnyOf("only", "stockpile"));
             }
         }
     }
@@ -75,7 +75,7 @@ namespace CityStateSim.Gameplay.Tests.Worlds
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(countAfterFirst, Is.EqualTo((200 * 200) + mapGenerator.AgentsSpawned));
+                Assert.That(countAfterFirst, Is.EqualTo((200 * 200) + mapGenerator.AgentsSpawned + mapGenerator.StockpilesSpawned));
                 Assert.That(countAfterSecond, Is.EqualTo(countAfterFirst));
             });
         }
