@@ -26,14 +26,5 @@ public class CutTreeJobHandler : IJobHandler
         var newResource = world.CreateEntity();
         newResource.Set(new PositionComponent(job.TargetX, job.TargetY));
         newResource.Set(new ResourceComponent() { ResourceType = "wood", Quantity = 1 });
-
-        // spawn wood for collection
-        /*        var resource = world.CreateEntity();
-                resource.Set(new ResourceComponent
-                {
-                    X = job.TargetX,
-                    Y = job.TargetY,
-                    ResourceType = "wood"
-                });*/
     }
 }

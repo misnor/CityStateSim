@@ -27,5 +27,9 @@ internal class MineRockJobHandler : IJobHandler
 
         tile.Remove<TileTypeComponent>();
         tile.Set<TileTypeComponent>(new TileTypeComponent("grass"));
+
+        var newResource = world.CreateEntity();
+        newResource.Set(new PositionComponent(job.TargetX, job.TargetY));
+        newResource.Set(new ResourceComponent() { ResourceType = "stone", Quantity = 1 });
     }
 }

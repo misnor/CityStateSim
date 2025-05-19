@@ -7,7 +7,7 @@
     },
     {
         "Id": "stone",
-        "SpriteKey": "",
+        "SpriteKey": "stone",
         "OffsetX": 0,
         "OffsetY": 0
     }
