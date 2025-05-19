@@ -25,7 +25,6 @@ public class CancelJobCommandHandler : ICommandHandler<CancelJobCommand>
             "Cancelling jobs in area: ({MinX}, {MinY}) to ({MaxX}, {MaxY})",
             command.MinX, command.MinY, command.MaxX, command.MaxY);
 
-        // 1) find all *job* entities in the rectangle
         var jobs = world.GetEntities()
             .With<JobComponent>()
             .With<PositionComponent>()
@@ -41,21 +40,21 @@ public class CancelJobCommandHandler : ICommandHandler<CancelJobCommand>
         {
             var pos = jobEntity.Get<PositionComponent>();
 
-            // 2) remove the UI overlay from the tile at this position
             var tile = world.GetEntities()
                 .With<PositionComponent>()
                 .With<TileTypeComponent>()
                 .AsEnumerable()
-                .Single(e =>
+                .FirstOrDefault(e =>
                 {
                     var tp = e.Get<PositionComponent>();
                     return tp.X == pos.X && tp.Y == pos.Y;
                 });
 
-            if (tile.Has<JobOverlayComponent>())
+            if (tile.IsAlive && tile.Has<JobOverlayComponent>())
+            {
                 tile.Remove<JobOverlayComponent>();
+            }
 
-            // 3) if someone was already working, reset them
             if (jobEntity.Has<JobProgressComponent>())
             {
                 var prog = jobEntity.Get<JobProgressComponent>();
@@ -68,12 +67,10 @@ public class CancelJobCommandHandler : ICommandHandler<CancelJobCommand>
                 jobEntity.Remove<JobProgressComponent>();
             }
 
-            // 4) finally, dispose the job entity itself
             jobEntity.Dispose();
             logger.LogDebug(
                 "Cancelled job at ({X}, {Y}) and cleared overlay",
                 pos.X, pos.Y);
         }
     }
-
 }

@@ -55,7 +55,7 @@ public class MarkTreesForCuttingCommandHandlerTests
         handler.Handle(command);
 
         // Assert
-        Assert.That(entity.Has<JobComponent>(), Is.True);
+        Assert.That(entity.Has<JobOverlayComponent>(), Is.True);
     }
 
     [Test]
@@ -116,9 +116,9 @@ public class MarkTreesForCuttingCommandHandlerTests
         // Assert
         Assert.Multiple(() =>
         {
-            Assert.That(entity1.Has<JobComponent>(), Is.True);
-            Assert.That(entity2.Has<JobComponent>(), Is.True);
-            Assert.That(entity3.Has<JobComponent>(), Is.False);
+            Assert.That(entity1.Has<JobOverlayComponent>(), Is.True);
+            Assert.That(entity2.Has<JobOverlayComponent>(), Is.True);
+            Assert.That(entity3.Has<JobOverlayComponent>(), Is.False);
         });
     }
 

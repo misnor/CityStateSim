@@ -4,67 +4,66 @@ using CityStateSim.Gameplay.Components;
 using CityStateSim.Gameplay.Simulation.Interfaces;
 using DefaultEcs;
 
-namespace CityStateSim.Gameplay.Simulation;
-public class WorkStartSystem : IWorldTickSystem
+namespace CityStateSim.Gameplay.Simulation
 {
-    private readonly float workDurationInSeconds;
-
-    public WorkStartSystem()
+    public class WorkStartSystem : IWorldTickSystem
     {
-        workDurationInSeconds = 2.5f;
-    }
+        private readonly float workDurationInSeconds;
 
-    public void Update(World world)
-    {
-        var arrivedAgents = world.GetEntities()
-            .With<AgentStateComponent>()
-            .With<MovementIntentComponent>()
-            .With<PositionComponent>()
-            .AsEnumerable()
-            .Where(e =>
-            {
-                var state = e.Get<AgentStateComponent>().State;
-                if (state != AgentState.Walking)
-                {
-                    return false;
-                }
-
-                var pos = e.Get<PositionComponent>();
-                var intent = e.Get<MovementIntentComponent>();
-
-                return pos.X == intent.TargetX && pos.Y == intent.TargetY;
-            });
-
-        foreach(var agent in arrivedAgents)
+        public WorkStartSystem()
         {
-            var pos = agent.Get<PositionComponent>();
-            var intent = agent.Get<MovementIntentComponent>();
+            workDurationInSeconds = 0.750f;
+        }
 
-            var jobEntity = world.GetEntities()
-                .With<JobComponent>()
+        public void Update(World world)
+        {
+            var arrivedAgents = world.GetEntities()
+                .With<AgentStateComponent>()
+                .With<MovementIntentComponent>()
                 .With<PositionComponent>()
-                .Without<JobProgressComponent>()
                 .AsEnumerable()
-                .SingleOrDefault(e =>
+                .Where(e =>
                 {
-                    var p = e.Get<PositionComponent>();
-                    return p.X == pos.X && p.Y == pos.Y;
+                    var state = e.Get<AgentStateComponent>().State;
+                    if (state != AgentState.Walking) return false;
+                    var pos = e.Get<PositionComponent>();
+                    var intent = e.Get<MovementIntentComponent>();
+                    return pos.X == intent.TargetX && pos.Y == intent.TargetY;
                 });
 
-            if(!jobEntity.IsAlive)
+            foreach (var agent in arrivedAgents)
             {
-                continue;
+                var pos = agent.Get<PositionComponent>();
+                var intent = agent.Get<MovementIntentComponent>();
+
+                var jobEntity = world.GetEntities()
+                    .With<JobComponent>()
+                    .With<PositionComponent>()
+                    .Without<JobProgressComponent>()
+                    .AsEnumerable()
+                    .FirstOrDefault(e =>
+                    {
+                        var p = e.Get<PositionComponent>();
+                        return p.X == pos.X && p.Y == pos.Y;
+                    });
+
+                if (!jobEntity.IsAlive)
+                {
+                    agent.Remove<MovementIntentComponent>();
+                    agent.Set(new AgentStateComponent { State = AgentState.Idle });
+                    continue;
+                }
+
+                ref var state = ref agent.Get<AgentStateComponent>();
+                state.State = AgentState.Working;
+                agent.Remove<MovementIntentComponent>();
+
+                jobEntity.Set(new JobProgressComponent
+                {
+                    RemainingSeconds = workDurationInSeconds,
+                    AgentEntity = agent
+                });
             }
-
-            ref var state = ref agent.Get<AgentStateComponent>();
-            state.State = AgentState.Working;
-            agent.Remove<MovementIntentComponent>();
-
-            jobEntity.Set(new JobProgressComponent()
-            {
-                RemainingSeconds = workDurationInSeconds,
-                AgentEntity = agent
-            });
         }
     }
 }

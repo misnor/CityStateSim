@@ -1,57 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CityStateSim.Core.Commands;
+﻿using CityStateSim.Core.Commands;
 using CityStateSim.Core.Components;
+using CityStateSim.Core.Components.Tags;
 using CityStateSim.Core.Enums;
 using CityStateSim.Gameplay.Commands;
 using DefaultEcs;
 
-namespace CityStateSim.Gameplay.Jobs;
-internal class MineRockJobHandler : IJobHandler
+namespace CityStateSim.Gameplay.Jobs
 {
-    private readonly ICommandDispatcher dispatcher;
-
-    public MineRockJobHandler(ICommandDispatcher dispatcher)
+    internal class MineRockJobHandler : IJobHandler
     {
-        this.dispatcher = dispatcher;
-    }
+        private readonly ICommandDispatcher dispatcher;
 
-    public JobType JobType => JobType.MineRock;
-
-    public void HandleCompletion(World world, Entity agent, Entity jobEntity)
-    {
-        var job = jobEntity.Get<JobComponent>();
-
-        var tile = world.GetEntities()
-            .With<PositionComponent>()
-            .With<TileTypeComponent>()
-            .AsEnumerable()
-            .Single(e =>
-            {
-                var p = e.Get<PositionComponent>();
-                return p.X == job.TargetX && p.Y == job.TargetY;
-            });
-
-        if (tile.Has<JobOverlayComponent>())
+        public MineRockJobHandler(ICommandDispatcher dispatcher)
         {
-            tile.Remove<JobOverlayComponent>();
+            this.dispatcher = dispatcher;
         }
 
-        tile.Remove<TileTypeComponent>();
-        tile.Set<TileTypeComponent>(new TileTypeComponent("grass"));
+        public JobType JobType => JobType.MineRock;
 
-        var newResource = world.CreateEntity();
-        newResource.Set(new PositionComponent(job.TargetX, job.TargetY));
-        newResource.Set(new ResourceComponent() { ResourceType = "stone", Quantity = 1 });
+        public void HandleCompletion(World world, Entity agent, Entity jobEntity)
+        {
+            var job = jobEntity.Get<JobComponent>();
 
-        dispatcher.Dispatch(new CreatePickupJobCommand(job.TargetX, job.TargetY));
+            var tile = world.GetEntities()
+                .With<PositionComponent>()
+                .With<TileTypeComponent>()
+                .AsEnumerable()
+                .Single(e =>
+                {
+                    var p = e.Get<PositionComponent>();
+                    return p.X == job.TargetX && p.Y == job.TargetY;
+                });
 
-        jobEntity.Dispose();
+            if (tile.Has<JobOverlayComponent>())
+            {
+                tile.Remove<JobOverlayComponent>();
+            }
 
-        ref var agentState = ref agent.Get<AgentStateComponent>();
-        agentState.State = AgentState.Idle;
+            tile.Set(new TileTypeComponent("grass"));
+
+            var resourceEntity = world.CreateEntity();
+            resourceEntity.Set(new PositionComponent(job.TargetX, job.TargetY));
+            resourceEntity.Set(new ResourceComponent
+            {
+                ResourceType = "stone",
+                Quantity = 1
+            });
+
+            dispatcher.Dispatch(new CreatePickupJobCommand(job.TargetX, job.TargetY));
+
+            jobEntity.Dispose();
+
+            ref var agentState = ref agent.Get<AgentStateComponent>();
+            agentState.State = AgentState.Idle;
+        }
     }
 }
