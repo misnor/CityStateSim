@@ -21,45 +21,59 @@ public class CancelJobCommandHandler : ICommandHandler<CancelJobCommand>
 
     public void Handle(CancelJobCommand command)
     {
-        logger.LogInformation("Cancelling jobs in area: ({MinX}, {MinY}) to ({MaxX}, {MaxY})",
+        logger.LogInformation(
+            "Cancelling jobs in area: ({MinX}, {MinY}) to ({MaxX}, {MaxY})",
             command.MinX, command.MinY, command.MaxX, command.MaxY);
 
-        var entities = world.GetEntities()
+        // 1) find all *job* entities in the rectangle
+        var jobs = world.GetEntities()
+            .With<JobComponent>()
             .With<PositionComponent>()
-            .AsEnumerable();
+            .AsEnumerable()
+            .Where(e =>
+            {
+                var p = e.Get<PositionComponent>();
+                return p.X >= command.MinX && p.X <= command.MaxX
+                    && p.Y >= command.MinY && p.Y <= command.MaxY;
+            });
 
-        foreach (var entity in world.GetEntities()
-                                                .With<PositionComponent>()
-                                                .AsEnumerable())
+        foreach (var jobEntity in jobs)
         {
-            var pos = entity.Get<PositionComponent>();
-            if (pos.X < command.MinX || pos.X > command.MaxX ||
-                pos.Y < command.MinY || pos.Y > command.MaxY)
-            {
-                continue;
-            }
+            var pos = jobEntity.Get<PositionComponent>();
 
-            if (!entity.Has<JobComponent>())
-            {
-                continue;
-            }
+            // 2) remove the UI overlay from the tile at this position
+            var tile = world.GetEntities()
+                .With<PositionComponent>()
+                .With<TileTypeComponent>()
+                .AsEnumerable()
+                .Single(e =>
+                {
+                    var tp = e.Get<PositionComponent>();
+                    return tp.X == pos.X && tp.Y == pos.Y;
+                });
 
-            if (entity.Has<JobProgressComponent>())
+            if (tile.Has<JobOverlayComponent>())
+                tile.Remove<JobOverlayComponent>();
+
+            // 3) if someone was already working, reset them
+            if (jobEntity.Has<JobProgressComponent>())
             {
-                var prog = entity.Get<JobProgressComponent>();
+                var prog = jobEntity.Get<JobProgressComponent>();
                 var agent = prog.AgentEntity;
-
                 if (agent.IsAlive)
                 {
                     agent.Set(new AgentStateComponent { State = AgentState.Idle });
                     agent.Remove<MovementIntentComponent>();
                 }
-
-                entity.Remove<JobProgressComponent>();
+                jobEntity.Remove<JobProgressComponent>();
             }
 
-            entity.Remove<JobComponent>();
-            logger.LogDebug("Removed JobComponent at ({X}, {Y})", pos.X, pos.Y);
+            // 4) finally, dispose the job entity itself
+            jobEntity.Dispose();
+            logger.LogDebug(
+                "Cancelled job at ({X}, {Y}) and cleared overlay",
+                pos.X, pos.Y);
         }
     }
-} 
+
+}

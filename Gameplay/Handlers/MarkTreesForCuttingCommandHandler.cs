@@ -39,8 +39,11 @@ public class MarkTreesForCuttingCommandHandler : ICommandHandler<MarkTreesForCut
 
         foreach (var tree in trees)
         {
-            var treePos = tree.Get<PositionComponent>();
-            tree.Set<JobComponent>(new JobComponent(treePos.X, treePos.Y, JobType.HarvestTree));
+            var jobEntity = world.CreateEntity();
+            var jobPos = tree.Get<PositionComponent>();
+            jobEntity.Set(new PositionComponent(jobPos.X, jobPos.Y));
+            jobEntity.Set(new JobComponent(jobPos.X, jobPos.Y, JobType.HarvestTree) { Status = JobStatus.Pending });
+            tree.Set(new JobOverlayComponent());
         }
     }
 } 

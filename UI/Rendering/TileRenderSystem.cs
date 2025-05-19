@@ -91,8 +91,7 @@ public class TileRenderSystem : IRenderSystem
                 spriteBatch.Draw(pixel, rect, color);
             }
 
-            if (HasJobAssigned(type.Id, e)
-                                && jobIconCache.TryGetValue(type.Id, out var iconTex))
+            if (e.Has<JobOverlayComponent>() && jobIconCache.TryGetValue(type.Id, out var iconTex))
             {
                 int iconSize = tileSize;
                 int offset = (tileSize - iconSize) / 2;

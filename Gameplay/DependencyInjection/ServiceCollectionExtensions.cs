@@ -22,16 +22,22 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IWorldTickSystem, InputSystem>();
         services.AddScoped<IWorldTickSystem, WorkStartSystem>();
         services.AddScoped<IWorldTickSystem, WorkProgressSystem>();
+
         services.AddSingleton<ITickSpeedService, TickSpeedService>();
         services.AddSingleton<IToolStateService, ToolStateService>();
+        
         services.AddScoped<IJobHandler, CutTreeJobHandler>();
         services.AddScoped<IJobHandler, MineRockJobHandler>();
+        services.AddScoped<IJobHandler, PickupResourceJobHandler>();
+        services.AddScoped<IJobHandler, DeliverResourceJobHandler>();
 
         services.AddScoped<ICommandHandler<ExitGameCommand>, ExitGameCommandHandler>();
         services.AddScoped<ICommandHandler<TogglePauseCommand>, TogglePauseCommandHandler>();
         services.AddScoped<ICommandHandler<MarkTreesForCuttingCommand>, MarkTreesForCuttingCommandHandler>();
         services.AddScoped<ICommandHandler<MarkStonesForMiningCommand>, MarkRocksForMiningCommandHandler>();
         services.AddScoped<ICommandHandler<CancelJobCommand>, CancelJobCommandHandler>();
+        services.AddScoped<ICommandHandler<CreatePickupJobCommand>, CreatePickupJobCommandHandler>();
+        services.AddScoped<ICommandHandler<CreateDeliverJobCommand>, CreateDeliverJobCommandHandler>();
 
         services.AddSingleton<MapGenerator>();
         return services;

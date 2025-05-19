@@ -75,8 +75,8 @@ public class MapGenerator
     private void SpawnAgents(World world)
     {
         SpawnAgent(world, 2, 2);
-        SpawnAgent(world, 4, 3);
-        SpawnAgent(world, 7, 2);
+/*        SpawnAgent(world, 4, 3);
+        SpawnAgent(world, 7, 2);*/
     }
 
     private void SpawnAgent(World world, int x, int y)
