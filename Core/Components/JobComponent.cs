@@ -1,7 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-using CityStateSim.Core.Enums;
-
-namespace CityStateSim.Core.Components;
+﻿namespace CityStateSim.Core.Components;
 
 public enum JobStatus
 {

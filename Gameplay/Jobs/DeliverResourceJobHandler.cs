@@ -1,14 +1,32 @@
 ﻿using CityStateSim.Core.Components;
 using CityStateSim.Core.Enums;
 using DefaultEcs;
+using Microsoft.Extensions.Logging;
 
 namespace CityStateSim.Gameplay.Jobs;
 internal class DeliverResourceJobHandler : IJobHandler
 {
+    private readonly ILogger<DeliverResourceJobHandler> logger;
+
     public JobType JobType => JobType.DeliverResource;
+    public DeliverResourceJobHandler(ILogger<DeliverResourceJobHandler> logger)
+    {
+        this.logger = logger;
+    }
 
     public void HandleCompletion(World world, Entity agent, Entity jobEntity)
     {
+        // This is a defensive check - for some reason some
+        // Agents can get to a stockpile without a CarryingComponent
+        if (!agent.Has<CarryingComponent>())
+        {
+            this.logger.LogError("An agent just tried to deliver nothing!");
+            agent.Remove<MovementIntentComponent>();
+            agent.Set(new AgentStateComponent { State = AgentState.Idle });
+            jobEntity.Dispose();
+            return;
+        }
+
         // find the stockpile at the job tile
         var sp = world.GetEntities()
             .With<PositionComponent>()
