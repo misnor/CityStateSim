@@ -4,6 +4,7 @@ using CityStateSim.Infrastructure.Config.Interfaces;
 using CityStateSim.Infrastructure.Factories;
 using CityStateSim.Gameplay.Simulation;
 using CityStateSim.Core.Components.Tags;
+using CityStateSim.Core.Config;
 
 namespace CityStateSim.Gameplay.Tests.Worlds
 {
@@ -23,7 +24,7 @@ namespace CityStateSim.Gameplay.Tests.Worlds
             // Arrange
             var defs = new List<TileDefinition>
             {
-                new("only", true, null, 1.0f)
+                new("only", true, null, 1.0f, string.Empty)
             };
             var cfg = new StubConfigProvider(defs);
             var worldFactory = new DefaultEcsWorldFactory();
@@ -56,7 +57,7 @@ namespace CityStateSim.Gameplay.Tests.Worlds
             // Arrange
             var defs = new List<TileDefinition>
             {
-                new("only", true, null, 1.0f)
+                new("only", true, null, 1.0f, string.Empty)
             };
             var cfg = new StubConfigProvider(defs);
             var worldFactory = new DefaultEcsWorldFactory();

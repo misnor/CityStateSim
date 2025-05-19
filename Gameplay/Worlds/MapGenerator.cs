@@ -1,17 +1,12 @@
-﻿using System.Runtime.CompilerServices;
-using CityStateSim.Core.Components;
+﻿using CityStateSim.Core.Components;
 using CityStateSim.Core.Components.Tags;
 using DefaultEcs;
 using CityStateSim.Infrastructure.Config.Interfaces;
-using CityStateSim.Infrastructure.Factories.Interfaces;
 using CityStateSim.Core.Enums;
+using CityStateSim.Core.Config;
 
 namespace CityStateSim.Gameplay.Worlds;
 
-/// <summary>
-/// Defines a single tile type as specified in tiles.json
-/// </summary>
-public record TileDefinition(string Id, bool Walkable, string? Resource, float SpawnProbability);
 
 public class MapGenerator
 {

@@ -3,24 +3,28 @@
         "Id": "grass",
         "Walkable": true,
         "Resource": null,
-        "SpawnProbability": 0.85
+        "SpawnProbability": 0.85,
+        "SpriteKey": "grass"
     },
     {
         "Id": "tree",
         "Walkable": false,
         "Resource": "wood",
-        "SpawnProbability": 0.1
+        "SpawnProbability": 0.1,
+        "SpriteKey": "tree"
     },
     {
         "Id": "rock",
         "Walkable": false,
         "Resource": "stone",
-        "SpawnProbability": 0.05
+        "SpawnProbability": 0.05,
+        "SpriteKey": "rock"
     },
     {
         "Id": "stockpile",
         "Walkable": true,
         "Resource": null,
-        "SpawnProbability": 0.00
+        "SpawnProbability": 0.00,
+        "SpriteKey": ""
     }
 ]
