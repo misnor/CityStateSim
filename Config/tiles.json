@@ -25,6 +25,6 @@
         "Walkable": true,
         "Resource": null,
         "SpawnProbability": 0.00,
-        "SpriteKey": ""
+        "SpriteKey": "stockpile_solid"
     }
 ]

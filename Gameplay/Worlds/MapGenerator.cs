@@ -53,8 +53,21 @@ public class MapGenerator
         }
 
         SpawnAgents(world);
-
+        SpawnStockpile(world);
         return world;
+    }
+
+    private void SpawnStockpile(World world)
+    {
+        var stockpile = world.CreateEntity();
+        stockpile.Set(new PositionComponent(5, 5));
+        stockpile.Set(new SpriteComponent() { TextureKey = "stockpile_solid" });
+        stockpile.Set(new TileTypeComponent("stockpile"));
+        stockpile.Set(new StockpileComponent() 
+        { 
+            CapacityPerResource = 100, 
+            Inventory = new Dictionary<string, int>() 
+        });
     }
 
     private void SpawnAgents(World world)

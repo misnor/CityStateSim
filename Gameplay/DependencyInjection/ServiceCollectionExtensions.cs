@@ -27,7 +27,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IJobHandler, CutTreeJobHandler>();
         services.AddScoped<IJobHandler, MineRockJobHandler>();
 
-
         services.AddScoped<ICommandHandler<ExitGameCommand>, ExitGameCommandHandler>();
         services.AddScoped<ICommandHandler<TogglePauseCommand>, TogglePauseCommandHandler>();
         services.AddScoped<ICommandHandler<MarkTreesForCuttingCommand>, MarkTreesForCuttingCommandHandler>();
