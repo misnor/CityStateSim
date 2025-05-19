@@ -22,9 +22,6 @@ public class MapGenerator
         this.rand = rand ?? new Random();
     }
 
-    /// <summary>
-    /// Generates a width×height grid of tile entities.
-    /// </summary>
     public World Generate(World world, int width, int height)
     {
         var definitions = config.LoadConfig<List<TileDefinition>>("tiles.json");
@@ -75,8 +72,8 @@ public class MapGenerator
     private void SpawnAgents(World world)
     {
         SpawnAgent(world, 2, 2);
-/*        SpawnAgent(world, 4, 3);
-        SpawnAgent(world, 7, 2);*/
+        SpawnAgent(world, 4, 3);
+        SpawnAgent(world, 7, 2);
     }
 
     private void SpawnAgent(World world, int x, int y)

@@ -1,86 +1,90 @@
-﻿using CityStateSim.Core.Components.Tags;
+﻿using System.Linq;
 using CityStateSim.Core.Components;
+using CityStateSim.Core.Components.Tags;
 using CityStateSim.Core.Enums;
+using CityStateSim.Gameplay.Components;   // for CarryingComponent
 using CityStateSim.Gameplay.Simulation.Interfaces;
 using DefaultEcs;
 using Microsoft.Extensions.Logging;
-using System.Reflection.Metadata.Ecma335;
 
-namespace CityStateSim.Gameplay.Simulation;
-public class JobAssignmentSystem : IWorldTickSystem
+namespace CityStateSim.Gameplay.Simulation
 {
-    ILogger<JobAssignmentSystem> logger;
-    
-    public JobAssignmentSystem(ILogger<JobAssignmentSystem> logger)
+    public class JobAssignmentSystem : IWorldTickSystem
     {
-        this.logger = logger;
-    }
+        private readonly ILogger<JobAssignmentSystem> logger;
 
-    public void Update(World world)
-    {
-        var idleAgents = world.GetEntities()
-            .With<AgentTag>()
-            .With<AgentStateComponent>()
-            .With<PositionComponent>()
-            .AsEnumerable()
-            .Where(e =>
-                e.Get<AgentStateComponent>().State == AgentState.Idle
-            )
-            .ToArray();
-
-        var availableJobs = world.GetEntities()
-            .With<JobComponent>()
-            .With<PositionComponent>()
-            .AsEnumerable()
-            .Where(x =>
-            {
-                var jobComponent = x.Get<JobComponent>();
-                return !jobComponent.IsAssigned;
-            })
-            .ToArray();
-
-        if (availableJobs.Length == 0)
+        public JobAssignmentSystem(ILogger<JobAssignmentSystem> logger)
         {
-            return;
+            this.logger = logger;
         }
 
-        if(idleAgents.Length == 0)
+        public void Update(World world)
         {
-            return;
-        }
+            // gather all idle agents once
+            var idleAgents = world.GetEntities()
+                .With<AgentTag>()
+                .With<AgentStateComponent>()
+                .With<PositionComponent>()
+                .AsEnumerable()
+                .Where(a => a.Get<AgentStateComponent>().State == AgentState.Idle)
+                .ToList();
 
-        foreach (var jobEntity in availableJobs)
-        {
-            var job = jobEntity.Get<JobComponent>();
-            var jobPos = jobEntity.Get<PositionComponent>();
-
-            var nearestAgent = idleAgents
-                .OrderBy(e =>
-                {
-                    var pos = e.Get<PositionComponent>();
-                    var dx = pos.X - jobPos.X;
-                    var dy = pos.Y - jobPos.Y;
-                    return dx * dx + dy * dy;
-                })
-                .FirstOrDefault();
-
-            if(!nearestAgent.IsAlive)
-            {
+            if (idleAgents.Count == 0)
                 return;
-            }
+
+            // gather all unassigned jobs
+            var availableJobs = world.GetEntities()
+                .With<JobComponent>()
+                .With<PositionComponent>()
+                .AsEnumerable()
+                .Where(j => !j.Get<JobComponent>().IsAssigned)
+                .ToList();
+
+            if (availableJobs.Count == 0)
+                return;
+
+            foreach (var jobEntity in availableJobs)
+            {
+                var job = jobEntity.Get<JobComponent>();
+                var jobPos = jobEntity.Get<PositionComponent>();
+
+                // pick only the agents eligible for this job type
+                var candidates = job.JobType switch
+                {
+                    JobType.PickupResource => idleAgents.Where(a => !a.Has<CarryingComponent>()),
+                    JobType.DeliverResource => idleAgents.Where(a => a.Has<CarryingComponent>()),
+                    _ => idleAgents
+                };
+
+                if (!candidates.Any())
+                    continue;
+
+                // find the nearest eligible agent
+                var nearest = candidates
+                    .OrderBy(a =>
+                    {
+                        var p = a.Get<PositionComponent>();
+                        var dx = p.X - jobPos.X;
+                        var dy = p.Y - jobPos.Y;
+                        return dx * dx + dy * dy;
+                    })
+                    .First();
+
+                if (!nearest.IsAlive)
+                    continue;
 
                 // mark job assigned
-            job.IsAssigned = true;
-            jobEntity.Set(job);
-            ref var agentState = ref nearestAgent.Get<AgentStateComponent>();
+                job.IsAssigned = true;
+                jobEntity.Set(job);
 
-            agentState.State = AgentState.Walking;
-            // give agent a MovementIntent + update its state
-            nearestAgent.Set(new MovementIntentComponent(jobPos.X, jobPos.Y));
-            nearestAgent.Set(new AgentStateComponent { State = AgentState.Walking });
+                // send agent walking
+                ref var state = ref nearest.Get<AgentStateComponent>();
+                state.State = AgentState.Walking;
+                nearest.Set(new MovementIntentComponent(jobPos.X, jobPos.Y));
 
-                // remove that agent from future consideration
-            idleAgents = idleAgents.Except(new[] { nearestAgent }).ToArray();
+                // remove that agent from this batch so we don't double‐assign
+                idleAgents.Remove(nearest);
+            }
         }
     }
 }
