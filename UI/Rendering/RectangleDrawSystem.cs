@@ -57,6 +57,14 @@ public class RectangleDrawSystem : IRenderSystem
 
         bool isMouseDown = inputService.IsMouseButtonDown(MouseButton.Left);
         var mousePos = inputService.GetMousePosition();
+        var vp = spriteBatch.GraphicsDevice.Viewport;
+
+        if(IsOverToolbar(mousePos, vp) || IsOffscreen(mousePos, vp))
+        {
+            wasMouseDown = isMouseDown;
+            return;
+        }
+
         var screenPos = new Vector2(mousePos.X, mousePos.Y);
         var worldPos = camera.ScreenToWorld(screenPos, spriteBatch.GraphicsDevice);
 
