@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using CityStateSim.Core.Components;
+using CityStateSim.Core.Components.Tags;
 using CityStateSim.Core.Enums;
-using CityStateSim.Gameplay.Components;   // for CarryingComponent
+using CityStateSim.Gameplay.Components;
+using CityStateSim.Gameplay.Simulation.Interfaces;
 using DefaultEcs;
 using Microsoft.Extensions.Logging;
 
