@@ -21,6 +21,14 @@ public class TileRenderSystem : IRenderSystem
     private readonly IEnumerable<TileDefinition> tileDefinitions;
     private readonly Dictionary<string, Texture2D> spriteCache = new();
 
+    private static readonly Dictionary<string, string> JobIconKeys = new()
+    {
+        ["tree"] = "tool_axe_single",
+        ["rock"] = "tool_pickaxe"
+    };
+
+    private readonly Dictionary<string, Texture2D> jobIconCache = new();
+
     static readonly Dictionary<string, Color> TileColors = new()
     {
         ["grass"] = Color.Green,
@@ -49,6 +57,11 @@ public class TileRenderSystem : IRenderSystem
                 spriteCache[def.Id] = textureFactory.GetTexture(def.SpriteKey);
             }
         }
+
+        foreach (var kv in JobIconKeys)
+        {
+            jobIconCache[kv.Key] = textureFactory.GetTexture(kv.Value);
+        }
     }
 
     public void Draw(SpriteBatch spriteBatch, World world)
@@ -66,26 +79,31 @@ public class TileRenderSystem : IRenderSystem
                 Constants.TileSize,
                 Constants.TileSize);
 
-            if (spriteCache.TryGetValue(type.Id, out var tex))
+            if (spriteCache.TryGetValue(type.Id, out var tileTex))
             {
-                spriteBatch.Draw(tex, rect, Color.White);
+                spriteBatch.Draw(tileTex, rect, Color.White);
             }
             else
             {
                 var color = TileColors.TryGetValue(type.Id, out var c)
                             ? c
-                            : Color.Magenta;   // guard against missing keys
+                            : Color.Magenta;
                 spriteBatch.Draw(pixel, rect, color);
             }
 
-            if (HasJobAssigned(type.Id, e))
+            if (HasJobAssigned(type.Id, e)
+                                && jobIconCache.TryGetValue(type.Id, out var iconTex))
             {
-                spriteBatch.Draw(pixel, rect, new Color(255, 0, 0, 100));
-                int border = 2;
-                spriteBatch.Draw(pixel, new Rectangle(rect.X, rect.Y, rect.Width, border), Color.Red);
-                spriteBatch.Draw(pixel, new Rectangle(rect.X, rect.Bottom - border, rect.Width, border), Color.Red);
-                spriteBatch.Draw(pixel, new Rectangle(rect.X, rect.Y, border, rect.Height), Color.Red);
-                spriteBatch.Draw(pixel, new Rectangle(rect.Right - border, rect.Y, border, rect.Height), Color.Red);
+                int iconSize = tileSize;
+                int offset = (tileSize - iconSize) / 2;
+                var iconRect = new Rectangle(
+                    rect.X + offset,
+                    rect.Y + offset,
+                    iconSize,
+                    iconSize);
+
+                var tint = new Color(255, 0, 0, 150);
+                spriteBatch.Draw(iconTex, iconRect, tint);
             }
         }
     }
