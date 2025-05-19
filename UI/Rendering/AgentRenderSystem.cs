@@ -29,7 +29,16 @@ public class AgentRenderSystem : IRenderSystem
         {
             ref var pos = ref e.Get<PositionComponent>();
             var rect = new Rectangle(pos.X * tileSize, pos.Y * tileSize, tileSize, tileSize);
-            spriteBatch.Draw(pixel, rect, Color.Red);
+            if (e.Has<SpriteComponent>())
+            {
+                ref var sprite = ref e.Get<SpriteComponent>();
+                spriteBatch.Draw(textureFactory.GetTexture(sprite.TextureKey), rect, Color.White);
+
+            }
+            else
+            {
+                spriteBatch.Draw(pixel, rect, Color.Red);
+            }
         }
     }
 

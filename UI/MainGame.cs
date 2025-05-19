@@ -73,6 +73,9 @@ namespace UI
             textureFactory.RegisterTexture("grass", Content.Load<Texture2D>("grass"));
             textureFactory.RegisterTexture("tree", Content.Load<Texture2D>("tree"));
             textureFactory.RegisterTexture("rock", Content.Load<Texture2D>("rock"));
+            textureFactory.RegisterTexture("humanoid1", Content.Load<Texture2D>("humanoid1"));
+            textureFactory.RegisterTexture("humanoid2", Content.Load<Texture2D>("humanoid2"));
+            textureFactory.RegisterTexture("humanoid3", Content.Load<Texture2D>("humanoid3"));
 
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;

@@ -14,7 +14,6 @@ using CityStateSim.UI.Factories;
 using CityStateSim.UI.Camera;
 using CityStateSim.Gameplay.Commands;
 using CityStateSim.Core.Commands;
-using CityStateSim.Gameplay.Handlers;
 using CityStateSim.UI.Handlers;
 
 internal class Program
@@ -29,9 +28,9 @@ internal class Program
             .AddSingleton<IFontFactory, FontFactory>()
             .AddSingleton<ITextureFactory, TextureFactory>()
             .AddSingleton<IRenderSystem, TileRenderSystem>()
+            .AddScoped<IRenderSystem, ResourceRenderSystem>()
             .AddSingleton<IRenderSystem, AgentRenderSystem>()
             .AddSingleton<IRenderSystem, HoverRenderSystem>()
-            .AddScoped<IRenderSystem, ResourceRenderSystem>()
             .AddScoped<IRenderSystem, ToolbarRenderSystem>()
             .AddScoped<IRenderSystem, RectangleDrawSystem>()
             .AddScoped<ICommandHandler<MoveCameraCommand>, MoveCameraCommandHandler>()

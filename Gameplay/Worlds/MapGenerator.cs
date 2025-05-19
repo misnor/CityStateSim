@@ -72,5 +72,7 @@ public class MapGenerator
         newAgent.Set(new PositionComponent(x, y));
         newAgent.Set(new AgentTag());
         newAgent.Set(new AgentStateComponent(AgentState.Idle));
+        var spriteKey = $"humanoid{(AgentsSpawned % 3) + 1}";
+        newAgent.Set(new SpriteComponent { TextureKey = spriteKey });
     }
 }
