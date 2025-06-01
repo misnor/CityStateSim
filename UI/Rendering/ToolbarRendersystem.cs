@@ -8,9 +8,7 @@ using CityStateSim.UI.Rendering.Interfaces;
 using CityStateSim.UI.Factories.Interfaces;
 using CityStateSim.Gameplay.Services.Interfaces;
 using CityStateSim.Infrastructure.Input;
-using CityStateSim.UI;
 using CityStateSim.Core.Commands;
-using CityStateSim.Gameplay.Commands;
 using Microsoft.Extensions.Logging;
 
 namespace CityStateSim.UI.Rendering
@@ -18,9 +16,11 @@ namespace CityStateSim.UI.Rendering
     public class ToolbarRenderSystem : IRenderSystem
     {
         private readonly ITextureFactory textureFactory;
+        private readonly IFontFactory fontFactory;
         private readonly IInputService inputService;
         private readonly IToolStateService toolStateService;
         private readonly ICommandDispatcher commandDispatcher;
+        private readonly ITickSpeedService speedService;
         private readonly ILogger<ToolbarRenderSystem> logger;
         private Texture2D bgTex;
         private readonly List<ToolbarButton> buttons;
@@ -31,15 +31,19 @@ namespace CityStateSim.UI.Rendering
 
         public ToolbarRenderSystem(
             ITextureFactory textureFactory,
+            IFontFactory fontFactory,
             IInputService inputService,
             IToolStateService toolStateService,
             ICommandDispatcher commandDispatcher,
+            ITickSpeedService speedService,
             ILogger<ToolbarRenderSystem> logger)
         {
             this.textureFactory = textureFactory ?? throw new ArgumentNullException(nameof(textureFactory));
+            this.fontFactory = fontFactory ?? throw new ArgumentNullException(nameof(fontFactory));
             this.inputService = inputService ?? throw new ArgumentNullException(nameof(inputService));
             this.toolStateService = toolStateService ?? throw new ArgumentNullException(nameof(toolStateService));
             this.commandDispatcher = commandDispatcher ?? throw new ArgumentNullException(nameof(commandDispatcher));
+            this.speedService = speedService ?? throw new ArgumentNullException(nameof(speedService));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.buttons = new List<ToolbarButton>();
         }
@@ -70,7 +74,7 @@ namespace CityStateSim.UI.Rendering
                 0,
                 vp.Height - ButtonSize - MarginY * 2,
                 vp.Width,
-                ButtonSize + MarginY * 2
+                ButtonSize + MarginY * 2 
             );
             spriteBatch.Draw(bgTex, barRect, new Color(0, 0, 0, 150));
 
@@ -80,6 +84,21 @@ namespace CityStateSim.UI.Rendering
                 buttons[i].SetBounds(x, posY, ButtonSize);
                 buttons[i].Draw(spriteBatch);
             }
+
+            DrawSpeed(spriteBatch);
+        }
+
+        private void DrawSpeed(SpriteBatch spriteBatch)
+        {
+            var speed = this.speedService.CurrentMultiplier;
+            var font = fontFactory.GetFont("DefaultFont");
+            var text = $"{speed}x";
+
+            var vp = spriteBatch.GraphicsDevice.Viewport;
+            var textSize = font.MeasureString(text);
+            var position = new Vector2(vp.Width - textSize.X - 10, vp.Height - textSize.Y - 10);
+
+            spriteBatch.DrawString(font, text, position, Color.White);
         }
     }
 }

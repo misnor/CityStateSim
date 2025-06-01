@@ -38,9 +38,9 @@ namespace CityStateSim.Gameplay.Simulation
                 .Where(j => !j.Get<JobComponent>().IsAssigned)
                 .ToList();
 
-            logger.LogInformation(
+           /* logger.LogInformation(
                 "IdleAgents={AgentCount}, AvailableJobs={JobCount}",
-                idleAgents.Count, availableJobs.Count);
+                idleAgents.Count, availableJobs.Count);*/
 
             if (idleAgents.Count == 0 || availableJobs.Count == 0)
                 return;

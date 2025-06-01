@@ -9,6 +9,7 @@ using CityStateSim.Core.Commands;
 using CityStateSim.Gameplay.Commands;
 using CityStateSim.Gameplay.Handlers;
 using CityStateSim.Gameplay.Jobs;
+using CityStateSim.Core.Events;
 
 namespace CityStateSim.Gameplay.DependencyInjection;
 public static class ServiceCollectionExtensions

@@ -24,6 +24,9 @@ public enum InputKey
     Down,
     Left,
     Right,
+    D1,
+    D2,
+    D3
 }
 
 public enum MouseButton

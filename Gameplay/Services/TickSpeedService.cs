@@ -1,30 +1,33 @@
 ﻿using CityStateSim.Core.EventBus.Interfaces;
 using CityStateSim.Core.Events;
 using CityStateSim.Gameplay.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace CityStateSim.Gameplay.Services;
 public class TickSpeedService : ITickSpeedService
 {
     private int currentMultiplier = 1;
+    private readonly ILogger<TickSpeedService> logger;
+
     public int CurrentMultiplier => currentMultiplier;
 
-    public TickSpeedService(IAppEventBus appBus)
+    public TickSpeedService(IAppEventBus bus, ILogger<TickSpeedService> logger)
     {
-        appBus.Subscribe<SetSpeedCommand>(cmd =>
-        {
-            if (cmd.multiplier > 0 && cmd.multiplier != currentMultiplier)
-            {
-                currentMultiplier = cmd.multiplier;
-                appBus.Publish(new SpeedChanged(currentMultiplier));
-            }
-        });
+        bus.Subscribe<SetSpeedCommand>(OnSetSpeedEvent);
+        this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public void SetSpeed(int multiplier)
+    private void OnSetSpeedEvent(SetSpeedCommand t)
+    {
+        SetSpeed(t.multiplier);
+    }
+
+    private void SetSpeed(int multiplier)
     {
         if (multiplier < 1)
         {
-            throw new ArgumentOutOfRangeException(nameof(multiplier), "Multiplier must be at least 1.");
+            this.logger.LogWarning("Attempted to set the speed to a negative numbers: {Multiplier}", multiplier);
+            return;
         }
 
         currentMultiplier = multiplier;

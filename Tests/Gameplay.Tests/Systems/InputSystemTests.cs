@@ -3,6 +3,8 @@ using DefaultEcs;
 using CityStateSim.Gameplay.Commands;
 using CityStateSim.Gameplay.Systems;
 using CityStateSim.Infrastructure.Input;
+using CityStateSim.Core.EventBus.Interfaces;
+using CityStateSim.Infrastructure.Events;
 
 namespace CityStateSim.Gameplay.Tests.Systems;
 
@@ -35,7 +37,9 @@ public class InputSystemTests
         }
     }
 
+
     private World dummyWorld;
+    private IAppEventBus dummyEventBus = new InMemoryAppEventBus();
 
     [SetUp]
     public void Setup()
@@ -54,7 +58,7 @@ public class InputSystemTests
     {
         var input = new FakeInputService { EscapeDown = true };
         var dispatcher = new SpyDispatcher();
-        var system = new InputSystem(input, dispatcher);
+        var system = new InputSystem(input, dispatcher, dummyEventBus);
 
         system.Update(dummyWorld);
 
@@ -67,7 +71,7 @@ public class InputSystemTests
     {
         var input = new FakeInputService { SpacePressed = true };
         var dispatcher = new SpyDispatcher();
-        var system = new InputSystem(input, dispatcher);
+        var system = new InputSystem(input, dispatcher, dummyEventBus);
 
         system.Update(dummyWorld);
 
@@ -80,7 +84,7 @@ public class InputSystemTests
     {
         var input = new FakeInputService { EscapeDown = true, SpacePressed = true };
         var dispatcher = new SpyDispatcher();
-        var system = new InputSystem(input, dispatcher);
+        var system = new InputSystem(input, dispatcher, dummyEventBus);
 
         system.Update(dummyWorld);
 
@@ -94,7 +98,7 @@ public class InputSystemTests
     {
         var input = new FakeInputService(); // both flags default to false
         var dispatcher = new SpyDispatcher();
-        var system = new InputSystem(input, dispatcher);
+        var system = new InputSystem(input, dispatcher, dummyEventBus);
 
         system.Update(dummyWorld);
 

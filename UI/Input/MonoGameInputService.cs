@@ -32,6 +32,9 @@ public class MonoGameInputService : IInputService
     {
         InputKey.Escape => Keys.Escape,
         InputKey.Space => Keys.Space,
+        InputKey.D1 => Keys.D1,
+        InputKey.D2 => Keys.D2,
+        InputKey.D3 => Keys.D3,
         _ => throw new ArgumentOutOfRangeException(nameof(key))
     };
 
